@@ -1,251 +1,479 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>vazor | terminal</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>vazor — Cyber Neon Portfolio</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64'><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='36'>V</text></svg>">
 <style>
-    body {
-        background: #000;
-        color: #00ff6a;
-        font-family: "Courier New", monospace;
-        padding: 20px;
-        font-size: 18px;
-        overflow-x: hidden;
-    }
+  /* ---------- Base & Reset ---------- */
+  :root{
+    --bg-1: #06060b;
+    --bg-2: #0f0812;
+    --neon-1: #00ffd5;
+    --neon-2: #7a00ff;
+    --glass: rgba(255,255,255,0.03);
+    --muted: rgba(255,255,255,0.55);
+    --glass-border: rgba(255,255,255,0.06);
+    --card-radius: 14px;
+    --container-max: 1100px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: radial-gradient(1200px 600px at 10% 10%, rgba(122,0,255,0.08), transparent 8%),
+                radial-gradient(900px 500px at 90% 85%, rgba(0,255,213,0.04), transparent 12%),
+                linear-gradient(180deg,var(--bg-1),var(--bg-2));
+    color: #e9f6ef;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:32px;
+  }
 
-    a { color:#00ff6a; text-decoration:none; }
-    a:hover { text-shadow:0 0 10px #00ff6a; }
+  /* ---------- Layout ---------- */
+  .wrap{
+    width:100%;
+    max-width:var(--container-max);
+    margin:0 auto;
+    display:grid;
+    grid-template-columns: 1fr 420px;
+    gap:28px;
+    align-items:start;
+  }
+  @media (max-width:980px){
+    .wrap{grid-template-columns:1fr; padding:10px}
+  }
 
-    .cursor {
-        display:inline-block;
-        width:10px;
-        height:20px;
-        background:#00ff6a;
-        margin-left:3px;
-        animation:blink .7s infinite;
-    }
+  /* ---------- Header / Hero ---------- */
+  .hero{
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius: var(--card-radius);
+    padding:28px;
+    border:1px solid var(--glass-border);
+    backdrop-filter: blur(8px) saturate(120%);
+    box-shadow: 0 6px 40px rgba(0,0,0,0.6), 0 0 40px rgba(122,0,255,0.04) inset;
+    position:relative;
+    overflow:hidden;
+  }
 
-    @keyframes blink {
-        0%{opacity:1;}
-        50%{opacity:0;}
-        100%{opacity:1;}
-    }
+  .brand{
+    display:flex;
+    gap:18px;
+    align-items:center;
+    margin-bottom:12px;
+  }
+  .logo {
+    width:64px; height:64px;
+    border-radius:12px;
+    display:inline-grid;
+    place-items:center;
+    font-weight:700;
+    background: linear-gradient(135deg,var(--neon-2),var(--neon-1));
+    color:#020207;
+    box-shadow: 0 4px 30px rgba(122,0,255,0.18), 0 0 18px rgba(0,255,213,0.06);
+  }
+  .title{
+    line-height:1;
+  }
+  .title h1{
+    margin:0;
+    font-size:28px;
+    letter-spacing:0.6px;
+    text-shadow: 0 0 18px rgba(0,255,213,0.06), 0 0 36px rgba(122,0,255,0.04);
+  }
+  .title p{
+    margin:0;
+    color:var(--muted);
+    font-size:13px;
+  }
 
-    .matrix {
-        position: fixed;
-        top:0; left:0;
-        width:100%; height:100%;
-        z-index:-1;
-        pointer-events:none;
-        opacity:0.25;
-    }
+  /* ---------- Neon Animated Name ---------- */
+  .neon-name{
+    font-family: "Courier New", monospace;
+    font-size:40px;
+    margin:18px 0 8px;
+    letter-spacing:1px;
+    color:transparent;
+    -webkit-text-stroke: 1px rgba(255,255,255,0.06);
+    background: linear-gradient(90deg, var(--neon-1), var(--neon-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    filter: drop-shadow(0 6px 20px rgba(122,0,255,0.12));
+    animation: neonPulse 3s infinite;
+  }
+  @keyframes neonPulse {
+    0%{filter: drop-shadow(0 4px 10px rgba(0,255,213,0.06))}
+    50%{filter: drop-shadow(0 12px 36px rgba(122,0,255,0.18))}
+    100%{filter: drop-shadow(0 4px 10px rgba(0,255,213,0.06))}
+  }
 
-    /* neon projects panel */
-    .projects {
-        margin-top:40px;
-        border:1px solid #00ff6a;
-        padding:20px;
-        border-radius:5px;
-        box-shadow:0 0 15px #00ff6a;
-    }
-    .projects h2 {
-        margin-top:0;
-        color:#00ff6a;
-    }
+  .tagline{ color:var(--muted); margin-bottom:18px; }
 
-    .ascii {
-        white-space: pre;
-        margin-bottom: 20px;
-        text-shadow: 0 0 5px #00ff6a;
-    }
+  /* ---------- Avatar / Glyph ---------- */
+  .avatar {
+    display:flex;
+    gap:18px;
+    align-items:center;
+    margin-top:6px;
+  }
+  .glyph {
+    width:120px; height:120px;
+    border-radius:12px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border:1px solid rgba(255,255,255,0.04);
+    display:grid;
+    place-items:center;
+    color:var(--neon-1);
+    font-family: "Courier New", monospace;
+    font-size:12px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 0 28px rgba(122,0,255,0.04) inset;
+    position:relative;
+    overflow:hidden;
+  }
+  .glyph canvas { width:100%; height:100%; display:block; }
 
+  .bio {
+    flex:1;
+    min-width:0;
+  }
+  .bio p { margin:0 0 10px 0; color:var(--muted); font-size:14px; }
+  .badges { display:flex; gap:8px; flex-wrap:wrap }
+  .badge {
+    padding:8px 12px;
+    font-size:13px;
+    border-radius:10px;
+    background: linear-gradient(90deg, rgba(0,255,213,0.06), rgba(122,0,255,0.04));
+    border:1px solid rgba(255,255,255,0.03);
+    color: #eafffb;
+  }
+
+  /* ---------- Content sections ---------- */
+  .section {
+    margin-top:20px;
+    display:grid;
+    gap:12px;
+  }
+  .grid {
+    display:grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap:12px;
+  }
+  @media (max-width:640px){ .grid{grid-template-columns:1fr} }
+
+  .card{
+    padding:14px;
+    border-radius:12px;
+    background: var(--glass);
+    border:1px solid var(--glass-border);
+    backdrop-filter: blur(6px);
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  .card:hover{ transform: translateY(-6px); box-shadow: 0 30px 60px rgba(0,0,0,0.6); }
+
+  .card h3 { margin:0 0 8px 0; font-size:15px }
+  .card small { color:var(--muted); font-size:13px }
+
+  /* ---------- Projects Panel (right column) ---------- */
+  .aside {
+    position:relative;
+    border-radius: var(--card-radius);
+    padding:20px;
+    border:1px solid var(--glass-border);
+    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+    box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+    height:fit-content;
+  }
+
+  .aside h2{ margin:0 0 12px 0; font-size:18px; color:var(--neon-2) }
+  .repo { padding:10px; border-radius:10px; display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:10px; background:rgba(255,255,255,0.015); border:1px solid rgba(255,255,255,0.02) }
+  .repo a{ color:inherit; text-decoration:none; font-weight:600; }
+  .repo small { color:var(--muted); font-size:12px; }
+
+  .stats {
+    margin-top:12px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .stat {
+    flex:1 1 45%;
+    min-width:120px;
+    padding:12px;
+    border-radius:10px;
+    background: linear-gradient(90deg, rgba(0,255,213,0.03), rgba(122,0,255,0.03));
+    text-align:center;
+  }
+  .stat h4{ margin:0; font-size:18px; color:#020207 }
+  .stat p{ margin:6px 0 0 0; color:var(--muted); font-size:13px }
+
+  /* ---------- Footer ---------- */
+  .footer { margin-top:18px; color:var(--muted); font-size:13px; text-align:center }
+
+  /* ---------- subtle animated separators ---------- */
+  .glow-line {
+    height:2px;
+    width:100%;
+    border-radius:2px;
+    background: linear-gradient(90deg, transparent, var(--neon-1), var(--neon-2), transparent);
+    opacity:0.9;
+    margin:12px 0;
+    filter:blur(6px);
+  }
+
+  /* accessibility focus */
+  a:focus, button:focus { outline: 2px solid rgba(0,255,213,0.18); outline-offset:2px }
 </style>
 </head>
 <body>
+  <main class="wrap" id="app">
+    <!-- LEFT / MAIN -->
+    <section class="hero" aria-labelledby="heroTitle">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">V</div>
+        <div class="title">
+          <h1 id="heroTitle">vazor — Cyber Neon Portfolio</h1>
+          <p>Premium personal portfolio · Programmer · Ethical hacking enthusiast</p>
+        </div>
+      </div>
 
-<canvas class="matrix"></canvas>
-<div class="ascii" id="ascii"></div>
+      <div class="neon-name" id="neonName">vazor</div>
+      <div class="tagline">Building slick web services · exploring security · shipping clean code</div>
 
-<div id="terminal"></div>
-<div class="cursor"></div>
+      <div class="avatar">
+        <div class="glyph" aria-hidden="true">
+          <canvas id="glyphCanvas" width="240" height="240"></canvas>
+        </div>
+        <div class="bio">
+          <p>Hi — I'm <strong>vazor</strong>. I enjoy creating performant web servers and learning ethical hacking. This site is a showcase of projects, stats and contact links.</p>
+          <div class="badges">
+            <div class="badge">JavaScript</div>
+            <div class="badge">Node.js</div>
+            <div class="badge">Python</div>
+            <div class="badge">TryHackMe</div>
+          </div>
+        </div>
+      </div>
 
-<audio id="bootSound" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg"></audio>
+      <div class="section grid" style="margin-top:18px;">
+        <div class="card">
+          <h3>About</h3>
+          <small>Short intro</small>
+          <p style="margin-top:10px;color:var(--muted)">I'm a programmer and beginner ethical hacker. I love servers, clean code and subtle performance gains. Currently experimenting with system tooling and network services.</p>
+        </div>
 
-<div class="projects" id="projects">
-    <h2>Projects</h2>
-    <div id="projectList">Loading...</div>
-</div>
+        <div class="card">
+          <h3>Contact</h3>
+          <small>Get in touch</small>
+          <div style="margin-top:10px;color:var(--muted);display:flex;flex-direction:column;gap:8px">
+            <a href="mailto:scoutboy0202@gmail.com">scoutboy0202@gmail.com</a>
+            <a href="https://steamcommunity.com/id/vazor_code/" target="_blank" rel="noopener noreferrer">Steam</a>
+            <a href="https://tryhackme.com/p/vazor" target="_blank" rel="noopener noreferrer">TryHackMe</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Quick Commands</h3>
+          <small>Keyboard-friendly</small>
+          <p style="margin-top:10px;color:var(--muted)">Press <strong>G</strong> to open GitHub, <strong>T</strong> for TryHackMe, or <strong>P</strong> to focus Projects.</p>
+        </div>
+
+        <div class="card">
+          <h3>Achievements</h3>
+          <small>Highlights</small>
+          <ul style="margin:10px 0 0 18px;color:var(--muted)">
+            <li>YOLO</li>
+            <li>Quickdraw</li>
+            <li>Pull Shark</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="glow-line" aria-hidden="true"></div>
+
+      <div class="section">
+        <div class="card">
+          <h3>Latest Activity</h3>
+          <small>Recent commits & contributions</small>
+          <div id="activity" style="margin-top:10px;color:var(--muted)">Loading...</div>
+        </div>
+      </div>
+
+      <div class="footer">© <span id="year"></span> vazor · Built with neon vibes</div>
+    </section>
+
+    <!-- RIGHT / SIDEBAR -->
+    <aside class="aside" aria-labelledby="projectsTitle">
+      <h2 id="projectsTitle">Projects & Stats</h2>
+
+      <div id="projectList">Loading projects...</div>
+
+      <div class="stats" style="margin-top:12px">
+        <div class="stat" id="ghStat">
+          <h4 id="ghCount">—</h4>
+          <p>Public Repos</p>
+        </div>
+      </div>
+
+      <div style="margin-top:12px">
+        <button id="refreshBtn" class="card" style="width:100%;text-align:left;cursor:pointer">Refresh data</button>
+      </div>
+      <div class="glow-line" style="margin-top:12px"></div>
+      <div style="color:var(--muted);font-size:13px">Pinned: UptimeMonitor · PassVault · VPScope</div>
+    </aside>
+  </main>
 
 <script>
-// ---------------- MATRIX BACKGROUND -----------------
-const canvas=document.querySelector('.matrix');
-const ctx=canvas.getContext('2d');
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
+/* ========= Config (change if needed) ========= */
+const GITHUB_USERNAME = 'vazor-code';    // change if repo under different user
+/* ============================================= */
 
-const letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-const fontSize=16;
-const columns=canvas.width/fontSize;
-const drops=Array.from({length:columns}).fill(1);
+document.getElementById('year').textContent = new Date().getFullYear();
 
-function drawMatrix(){
-    ctx.fillStyle="rgba(0,0,0,0.05)";
-    ctx.fillRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle="#00ff6a";
-    ctx.font=fontSize+"px monospace";
+/* ---------- Glyph / Avatar animation ---------- */
+(function initGlyph(){
+  const canvas = document.getElementById('glyphCanvas');
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  let t = 0;
 
-    drops.forEach((y,i)=>{
-        const text=letters.charAt(Math.floor(Math.random()*letters.length));
-        ctx.fillText(text,i*fontSize,y*fontSize);
+  function draw(){
+    ctx.clearRect(0,0,w,h);
 
-        if(y*fontSize>canvas.height && Math.random()>0.975) drops[i]=0;
-        drops[i]++;
-    });
-}
-setInterval(drawMatrix,35);
+    // soft radial background
+    const g = ctx.createRadialGradient(w*0.5,h*0.4,10,w*0.5,h*0.4,200);
+    g.addColorStop(0, 'rgba(0,255,213,0.08)');
+    g.addColorStop(0.6, 'rgba(122,0,255,0.05)');
+    g.addColorStop(1, 'transparent');
+    ctx.fillStyle = g;
+    ctx.fillRect(0,0,w,h);
 
-
-// ---------------- ASCII AVATAR -----------------
-document.getElementById("ascii").textContent = `
-      ______     ______     ______     ______    
-     /\\  == \\   /\\  ___\\   /\\  __ \\   /\\  == \\   
-     \\ \\  __<   \\ \\  __\\   \\ \\  __ \\  \\ \\  __<   
-      \\ \\_\\ \\_\\  \\ \\_____\\  \\ \\_\\ \\_\\  \\ \\_\\ \\_\\ 
-       \\/_/ /_/   \\/_____/   \\/_/\\/_/   \\/_/ /_/  
-`;
-
-
-// ---------------- TERMINAL BOOT SEQUENCE -----------------
-const terminal = document.getElementById("terminal");
-const bootSound=document.getElementById("bootSound");
-
-let bootStarted = false;
-
-function playBoot(){
-    if(!bootStarted){
-        bootStarted = true;
-        bootSound.volume = 0.4;
-        bootSound.play().catch(()=>{});
-    }
-}
-document.addEventListener("click", playBoot, { once:true });
-
-const bootLines = [
-    "loading hacker modules...",
-    "access granted.",
-    "",
-    ">>> I am vazor.",
-    ">>> Type 'help' for available commands.",
-    "",
-];
-
-let lineIndex = 0;
-
-function typeBootLine(){
-    if(lineIndex >= bootLines.length){
-        startInteractiveTerminal();
-        return;
+    // animated rings
+    for(let i=0;i<3;i++){
+      const r = 28 + (i*18) + Math.sin((t*0.015)+(i))*6;
+      ctx.beginPath();
+      ctx.strokeStyle = `rgba(255,255,255,${0.04 + i*0.03})`;
+      ctx.lineWidth = 2;
+      ctx.arc(w*0.5, h*0.5, r, 0, Math.PI*2);
+      ctx.stroke();
     }
 
-    const line = document.createElement("div");
-    terminal.appendChild(line);
+    // center glyph
+    ctx.font = "bold 28px 'Courier New', monospace";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = "#00ffd5";
+    ctx.fillText("V", w*0.5, h*0.5);
 
-    let charIndex = 0;
-    const typing = setInterval(()=>{
-        line.textContent = bootLines[lineIndex].slice(0, charIndex);
-        charIndex++;
+    t++;
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
 
-        if(charIndex > bootLines[lineIndex].length){
-            clearInterval(typing);
-        }
-    }, 20);
-
-    lineIndex++;
-    setTimeout(typeBootLine, bootLines[lineIndex - 1].length * 20 + 150);
-}
-
-typeBootLine();
-
-
-// ---------------- INTERACTIVE TERMINAL -----------------
-let interactiveStarted = false;
-
-function startInteractiveTerminal(){
-    if(interactiveStarted) return;
-    interactiveStarted = true;
-
-    let input = "";
-    const inputDiv = document.createElement("div");
-    terminal.appendChild(inputDiv);
-
-    function update(){
-        inputDiv.textContent = `user@vazor:~$ ${input}`;
+/* ---------- Keyboard shortcuts ---------- */
+(function shortcuts(){
+  window.addEventListener('keydown', (e) => {
+    if (e.key.toLowerCase() === 'g') {
+      window.open(`https://github.com/${GITHUB_USERNAME}`, '_blank', 'noopener');
     }
-
-    document.addEventListener("keydown", (e)=>{
-        if(e.key.length === 1){
-            input += e.key;
-        }
-        if(e.key === "Backspace"){
-            input = input.slice(0, -1);
-        }
-        if(e.key === "Enter"){
-            processCommand(input);
-            input = "";
-        }
-        update();
-    });
-
-    update();
-}
-
-function processCommand(cmd){
-    const out = document.createElement("div");
-
-    switch(cmd.trim()){
-        case "help":
-            out.textContent = "commands: help, github, thm, clear, whoami";
-            break;
-
-        case "github":
-            out.innerHTML = "<a href='https://github.com/vazor-code' target='_blank'>Opening GitHub...</a>";
-            break;
-
-        case "thm":
-            out.innerHTML = "<a href='https://tryhackme.com/p/vazor' target='_blank'>Opening TryHackMe...</a>";
-            break;
-
-        case "whoami":
-            out.textContent = "vazor — programmer & ethical hacking enthusiast.";
-            break;
-
-        case "clear":
-            terminal.innerHTML = "";
-            break;
-
-        default:
-            out.textContent = "unknown command";
+    if (e.key.toLowerCase() === 't') {
+      window.open(`https://tryhackme.com/p/${TRYHACKME_USERNAME}`, '_blank', 'noopener');
     }
-
-    terminal.appendChild(out);
-}
-
-
-// ---------------- PROJECT LOADER -----------------
-fetch("https://api.github.com/users/vazor-code/repos")
-  .then(r => r.json())
-  .then(repos => {
-      const container = document.getElementById("projectList");
-      container.innerHTML = "";
-
-      repos.slice(0, 5).forEach(repo => {
-          const div = document.createElement("div");
-          div.innerHTML = `• <a href="${repo.html_url}" target="_blank">${repo.name}</a>`;
-          container.appendChild(div);
-      });
+    if (e.key.toLowerCase() === 'p') {
+      const el = document.getElementById('projectList');
+      if(el) el.scrollIntoView({behavior:'smooth', block:'center'});
+    }
   });
+})();
+
+/* ---------- Fetch GitHub Repos & Activity ---------- */
+async function loadGitHub(){
+  const projectList = document.getElementById('projectList');
+  const activity = document.getElementById('activity');
+  const ghCount = document.getElementById('ghCount');
+  projectList.textContent = 'Loading projects...';
+  activity.textContent = 'Loading...';
+
+  try {
+    const userRes = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}`);
+    if(!userRes.ok) throw new Error('GitHub user fetch failed');
+    const user = await userRes.json();
+    ghCount.textContent = user.public_repos ?? '—';
+
+    // repos
+    const reposRes = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=8&sort=pushed`);
+    if(!reposRes.ok) throw new Error('Repos fetch failed');
+    const repos = await reposRes.json();
+
+    projectList.innerHTML = '';
+    if (Array.isArray(repos) && repos.length) {
+      repos.slice(0,6).forEach(r=>{
+        const div = document.createElement('div');
+        div.className = 'repo';
+        div.innerHTML = `<a href="${r.html_url}" target="_blank" rel="noopener">${escapeHtml(r.name)}</a><small>${r.language ?? ''} · ★${r.stargazers_count}</small>`;
+        projectList.appendChild(div);
+      });
+    } else {
+      projectList.textContent = 'No projects found';
+    }
+
+    // recent commits (simple, non-exhaustive)
+    const eventsRes = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/events/public?per_page=6`);
+    if(eventsRes.ok) {
+      const events = await eventsRes.json();
+      const commits = [];
+      events.forEach(ev=>{
+        if(ev.type === 'PushEvent') {
+          ev.payload.commits?.slice(0,2).forEach(c=>{
+            commits.push(`<div>• <strong>${escapeHtml(ev.repo.name)}</strong>: ${escapeHtml(c.message)}</div>`);
+          });
+        }
+      });
+      activity.innerHTML = commits.length ? commits.join('') : 'No recent pushes.';
+    } else {
+      activity.textContent = 'No recent activity.';
+    }
+
+  } catch(err){
+    console.warn('GitHub load error', err);
+    projectList.textContent = 'Failed to load projects';
+    activity.textContent = 'Failed to load activity';
+    ghCount.textContent = '—';
+  }
+}
+
+
+/* ---------- Utilities ---------- */
+function escapeHtml(str){
+  if(!str) return '';
+  return str.replace(/[&<>"']/g, (m) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+/* ---------- Refresh & Init ---------- */
+document.getElementById('refreshBtn').addEventListener('click', () => {
+  loadGitHub();
+  loadTHM();
+});
+
+loadGitHub();
+loadTHM();
+
+/* ---------- small startup sound (user gesture friendly) ---------- */
+(function startSound(){
+  const audioUrl = 'https://actions.google.com/sounds/v1/alarms/beep_short.ogg';
+  const audio = new Audio(audioUrl);
+  audio.volume = 0.25;
+  // play on first user gesture to avoid autoplay block
+  const playOnce = () => { audio.play().catch(()=>{}); window.removeEventListener('pointerdown', playOnce); };
+  window.addEventListener('pointerdown', playOnce);
+})();
+
 </script>
-
-
 </body>
 </html>
