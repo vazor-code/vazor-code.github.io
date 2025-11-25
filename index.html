@@ -104,8 +104,9 @@ function drawMatrix(){
 }
 setInterval(drawMatrix,35);
 
+
 // ---------------- ASCII AVATAR -----------------
-const asciiArt = `
+document.getElementById("ascii").textContent = `
       ______     ______     ______     ______    
      /\\  == \\   /\\  ___\\   /\\  __ \\   /\\  == \\   
      \\ \\  __<   \\ \\  __\\   \\ \\  __ \\  \\ \\  __<   
@@ -113,55 +114,66 @@ const asciiArt = `
        \\/_/ /_/   \\/_____/   \\/_/\\/_/   \\/_/ /_/  
 `;
 
-document.getElementById("ascii").textContent = asciiArt;
 
-
-// ---------------- TERMINAL TYPING + INTERACTIVE COMMANDS -----------------
-const terminal=document.getElementById("terminal");
+// ---------------- TERMINAL BOOT SEQUENCE -----------------
+const terminal = document.getElementById("terminal");
 const bootSound=document.getElementById("bootSound");
 
-bootSound.volume = 0.4;
-bootSound.play();
+let bootStarted = false;
 
-const lines = [
-    "booting system...",
+function playBoot(){
+    if(!bootStarted){
+        bootStarted = true;
+        bootSound.volume = 0.4;
+        bootSound.play().catch(()=>{});
+    }
+}
+document.addEventListener("click", playBoot, { once:true });
+
+const bootLines = [
     "loading hacker modules...",
     "access granted.",
     "",
-    ">>> Welcome.",
     ">>> I am vazor.",
-    ">>> Programmer. Ethical hacking newbie. Server enjoyer.",
     ">>> Type 'help' for available commands.",
     "",
-    ""
 ];
 
-let i=0;
+let lineIndex = 0;
 
-function typeLine(){
-    if(i < lines.length){
-        const line=document.createElement("div");
-        terminal.appendChild(line);
-
-        let j=0;
-        const interval=setInterval(()=>{
-            line.textContent=lines[i].slice(0,j);
-            j++;
-            if(j>lines[i].length) clearInterval(interval);
-        },18);
-
-        i++;
-        setTimeout(typeLine,lines[i-1].length*18+200);
-    } else {
+function typeBootLine(){
+    if(lineIndex >= bootLines.length){
         startInteractiveTerminal();
+        return;
     }
+
+    const line = document.createElement("div");
+    terminal.appendChild(line);
+
+    let charIndex = 0;
+    const typing = setInterval(()=>{
+        line.textContent = bootLines[lineIndex].slice(0, charIndex);
+        charIndex++;
+
+        if(charIndex > bootLines[lineIndex].length){
+            clearInterval(typing);
+        }
+    }, 20);
+
+    lineIndex++;
+    setTimeout(typeBootLine, bootLines[lineIndex - 1].length * 20 + 150);
 }
 
-typeLine();
+typeBootLine();
 
 
-// INTERACTIVE TERMINAL -----------------------------------------
+// ---------------- INTERACTIVE TERMINAL -----------------
+let interactiveStarted = false;
+
 function startInteractiveTerminal(){
+    if(interactiveStarted) return;
+    interactiveStarted = true;
+
     let input = "";
     const inputDiv = document.createElement("div");
     terminal.appendChild(inputDiv);
@@ -171,9 +183,12 @@ function startInteractiveTerminal(){
     }
 
     document.addEventListener("keydown", (e)=>{
-        if(e.key.length === 1) input += e.key;
-        if(e.key === "Backspace") input = input.slice(0,-1);
-
+        if(e.key.length === 1){
+            input += e.key;
+        }
+        if(e.key === "Backspace"){
+            input = input.slice(0, -1);
+        }
         if(e.key === "Enter"){
             processCommand(input);
             input = "";
@@ -185,7 +200,7 @@ function startInteractiveTerminal(){
 }
 
 function processCommand(cmd){
-    const out=document.createElement("div");
+    const out = document.createElement("div");
 
     switch(cmd.trim()){
         case "help":
@@ -205,7 +220,7 @@ function processCommand(cmd){
             break;
 
         case "clear":
-            terminal.innerHTML="";
+            terminal.innerHTML = "";
             break;
 
         default:
@@ -216,32 +231,21 @@ function processCommand(cmd){
 }
 
 
-// ---------------- PROJECTS (AUTO LOAD) -----------------
+// ---------------- PROJECT LOADER -----------------
 fetch("https://api.github.com/users/vazor-code/repos")
-    .then(r => r.json())
-    .then(repos=>{
-        const container=document.getElementById("projectList");
-        container.innerHTML="";
+  .then(r => r.json())
+  .then(repos => {
+      const container = document.getElementById("projectList");
+      container.innerHTML = "";
 
-        repos.slice(0,5).forEach(repo=>{
-            const div=document.createElement("div");
-            div.innerHTML = `• <a href="${repo.html_url}" target="_blank">${repo.name}</a>`;
-            container.appendChild(div);
-        });
-    });
-
-
-// ---------------- TryHackMe stats -----------------
-fetch("https://tryhackme.com/api/users/vazor")
-    .then(r=>r.json())
-    .then(data=>{
-        const div=document.createElement("div");
-        div.style.marginTop="15px";
-        div.innerHTML = `TryHackMe Rank: ${data.rank || "Unknown"} | Points: ${data.points || "N/A"}`;
-        document.getElementById("projects").appendChild(div);
-    });
-
+      repos.slice(0, 5).forEach(repo => {
+          const div = document.createElement("div");
+          div.innerHTML = `• <a href="${repo.html_url}" target="_blank">${repo.name}</a>`;
+          container.appendChild(div);
+      });
+  });
 </script>
+
 
 </body>
 </html>
