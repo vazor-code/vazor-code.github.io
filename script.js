@@ -23,14 +23,6 @@ const projects = [
         github: "https://github.com/vazor-code/VPScope",
         live: "#",
         status: "In Progress"
-    },
-    {
-        title: "Game Automation",
-        description: "Scripts for automating repetitive game tasks",
-        tech: ["Python", "PyAutoGUI", "OpenCV", "NumPy"],
-        github: "https://github.com/vazor-code/game-automation",
-        live: "#",
-        status: "Active"
     }
 ];
 
