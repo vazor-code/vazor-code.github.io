@@ -78,46 +78,6 @@ function typeWriter() {
     });
 }
 
-// Terminal typing effect
-function terminalTyping() {
-    const terminal = document.querySelector('.terminal-body');
-    const lines = [
-        "$ echo 'Hello World!'",
-        "Hello World!",
-        "$ python --version",
-        "Python 3.11.0",
-        "$ git status",
-        "On branch main\nYour branch is up to date with 'origin/main'."
-    ];
-    
-    let lineIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-    
-    function typeLine() {
-        if (lineIndex < lines.length) {
-            if (!isDeleting && charIndex <= lines[lineIndex].length) {
-                terminal.innerHTML += lines[lineIndex].charAt(charIndex);
-                charIndex++;
-                setTimeout(typeLine, 50);
-            } else if (isDeleting && charIndex >= 0) {
-                terminal.textContent = terminal.textContent.slice(0, -1);
-                charIndex--;
-                setTimeout(typeLine, 30);
-            } else {
-                isDeleting = !isDeleting;
-                if (!isDeleting) {
-                    lineIndex++;
-                    terminal.innerHTML += '<br>';
-                }
-                setTimeout(typeLine, 1000);
-            }
-        }
-    }
-    
-    typeLine();
-}
-
 // Initialize everything
 document.addEventListener('DOMContentLoaded', () => {
     loadProjects();
