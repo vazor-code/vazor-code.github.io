@@ -1,26 +1,26 @@
 // Projects data
 const projects = [
     {
-        title: "Automation Bot",
-        description: "Python bot that automates daily tasks and workflows",
-        tech: ["Python", "Selenium", "Requests", "SQLite"],
-        github: "https://github.com/vazor-code/automation-bot",
-        live: "#",
-        status: "Active"
-    },
-    {
-        title: "Web App with Flask",
-        description: "Full-stack web application with user authentication",
-        tech: ["Python", "Flask", "HTML/CSS", "MySQL"],
-        github: "https://github.com/vazor-code/flask-app",
+        title: "UptimeMonitor",
+        description: "🚀 Monitor any website's uptime with instant Telegram alerts",
+        tech: ["Python", "Requests", "SQLite", "Flask"],
+        github: "https://github.com/vazor-code/UptimeMonitor",
         live: "#",
         status: "Completed"
     },
     {
-        title: "CLI Tool",
-        description: "Command-line interface for developer productivity",
-        tech: ["Python", "Click", "API", "JSON"],
-        github: "https://github.com/vazor-code/cli-tool",
+        title: "PassVault",
+        description: "Простой зашифрованный менеджер паролей на Python. Позволяет хранить несколько паролей для одного сервиса, искать и удалять записи, а также генерировать безопасные пароли.",
+        tech: ["Python", "Fernet", "Cryptography"],
+        github: "https://github.com/vazor-code/PassVault",
+        live: "#",
+        status: "Completed"
+    },
+    {
+        title: "VPScope",
+        description: "🌟 VPScope – monitor & manage your VPS like a pro! CPU, RAM, disk, network live stats, file management, terminal commands. Sleek web UI + fast Docker 🐳 setup.",
+        tech: ["Python", "Flask", "Docker"],
+        github: "https://github.com/vazor-code/VPScope",
         live: "#",
         status: "In Progress"
     },
@@ -29,22 +29,6 @@ const projects = [
         description: "Scripts for automating repetitive game tasks",
         tech: ["Python", "PyAutoGUI", "OpenCV", "NumPy"],
         github: "https://github.com/vazor-code/game-automation",
-        live: "#",
-        status: "Active"
-    },
-    {
-        title: "API Wrapper",
-        description: "Python wrapper for popular web APIs",
-        tech: ["Python", "Requests", "AsyncIO", "Pydantic"],
-        github: "https://github.com/vazor-code/api-wrapper",
-        live: "#",
-        status: "Completed"
-    },
-    {
-        title: "Docker Configs",
-        description: "Docker configurations for various projects",
-        tech: ["Docker", "Docker Compose", "Linux", "Python"],
-        github: "https://github.com/vazor-code/docker-configs",
         live: "#",
         status: "Active"
     }
