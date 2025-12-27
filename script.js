@@ -3,19 +3,19 @@ const projects = [
         title: "UptimeMonitor",
         desc: "Бот для мониторинга доступности серверов в реальном времени.",
         tech: ["Python", "Flask", "Requests"],
-        link: "#"
+        link: "https://github.com/vazor-code/UptimeMonitor"
     },
     {
         title: "PassVault",
         desc: "Безопасный менеджер паролей с шифрованием AES-256.",
         tech: ["Python", "Cryptography", "SQLite"],
-        link: "#"
+        link: "https://github.com/vazor-code/PassVault"
     },
     {
         title: "VPScope",
         desc: "CLI инструмент для анализа статистики Linux серверов.",
         tech: ["Python", "Psutil", "Rich"],
-        link: "#"
+        link: "https://github.com/vazor-code/VPScope"
     }
 ];
 
