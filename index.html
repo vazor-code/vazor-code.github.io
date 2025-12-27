@@ -3,253 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>vazor | Python Developer</title>
-    <link rel="stylesheet" href="style.css">
+    <title>vazor | Python Developer Portfolio</title>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- ASCII Art Banner -->
-    <div class="ascii-banner">
-        <pre class="ascii-art">
- _  _  __    ____  _____  ____ 
-( \/ )/__\  (_   )(  _  )(  _ \
- \  //(__)\  / /_  )(_)(  )   /
-  \/(__)(__)(____)(_____)(_)\_)
-        </pre>
-        <div class="banner-text">
-            <span class="blink">_</span>
-        </div>
+
+    <div class="bg-wrapper">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="grid-overlay"></div>
     </div>
 
-    <div class="container">
-        <!-- Hero Section -->
-        <header class="hero">
-            <div class="hero-code">
-                <pre><code class="language-python">
-# vazor.py
-class Developer:
-    def __init__(self):
-        self.name = "vazor"
-        self.age = "Young"
-        self.language = "Python"
-        self.passion = "Tech since 7"
-        self.status = "Always curious, always coding"
-    
-    def build(self):
-        return "Web apps, systems, automation"
-                </code></pre>
-            </div>
-            
-            <div class="hero-content">
-                <h1 class="hero-title">
-                    <span class="wave">👋</span> Hi, I'm <span class="highlight">vazor</span>
-                </h1>
-                <p class="hero-subtitle">
-                    <span class="tag">💻</span> Young Python Developer | Tech enthusiast since age 7
-                </p>
-                <p class="hero-description">
-                    🐍 Building web apps with Python, exploring how systems work, and automating the world around me.<br>
-                    <span class="accent">Always curious, always coding.</span>
-                </p>
-            </div>
-        </header>
+    <nav class="glass-nav">
+        <div class="nav-container">
+            <div class="nav-logo">vazor<span>.py</span></div>
+            <ul class="nav-links">
+                <li><a href="#about">Обо мне</a></li>
+                <li><a href="#skills">Стек</a></li>
+                <li><a href="#projects">Проекты</a></li>
+                <li><a href="#contact" class="btn-primary">Связаться</a></li>
+            </ul>
+        </div>
+    </nav>
 
-        <!-- Stats -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon">🐍</div>
-                <div class="stat-number">1000+</div>
-                <div class="stat-label">Lines of Python</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">🚀</div>
-                <div class="stat-number">2+</div>
-                <div class="stat-label">Projects Built</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">⚡</div>
-                <div class="stat-number">24/7</div>
-                <div class="stat-label">Learning Mode</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">🔧</div>
-                <div class="stat-number">∞</div>
-                <div class="stat-label">Automations</div>
+    <div class="container">
+        
+        <div class="ascii-container fade-in">
+            <pre class="ascii-art">
+  _    _    __    ____  _____  ____  
+ ( \  / )  /__\  (_    )(  _  )(  _ \ 
+  \ \/ /  /(__)\  / /_   )(_)(  )   / 
+   \__/  (__)(__)(____) (_____)(_)\_) 
+            </pre>
+            <div class="terminal-loader">
+                <span class="command">System.initialize()</span>
+                <span class="cursor">|</span>
             </div>
         </div>
 
-        <!-- Skills Grid -->
-        <section class="section">
-            <h2 class="section-title">
-                <span class="tag">🔧</span> Skills & Technologies
-            </h2>
-            <div class="skills-grid">
-                <!-- Column 1: Core -->
-                <div class="skill-category">
+        <section class="hero-section" id="about">
+            <div class="hero-grid">
+                <div class="hero-main-content">
+                    <div class="badge animate-pop">🚀 Available for work</div>
+                    <h1 class="hero-title">
+                        Привет, я <span class="gradient-text">vazor</span>
+                        <span class="wave">👋</span>
+                    </h1>
+                    <h2 class="hero-subtitle">Python Developer & Архитектор Автоматизаций</h2>
+                    <p class="hero-description">
+                        Я превращаю сложные идеи в элегантный код. С 7 лет я болен технологиями, 
+                        сейчас я строю масштабируемые системы на <strong>Python</strong>, 
+                        экспериментирую с AI и создаю инструменты, которые экономят время.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#projects" class="btn-primary">Смотреть проекты</a>
+                        <a href="https://github.com/vazor-code" class="btn-secondary">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </div>
+                </div>
+
+                <div class="code-window glass">
+                    <div class="window-header">
+                        <div class="dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <div class="file-name">vazor_dev.py</div>
+                    </div>
+                    <div class="window-body">
+                        <pre><code class="language-python">
+<span class="k">class</span> <span class="nc">Developer</span>:
+    <span class="k">def</span> <span class="nf">__init__</span>(<span class="bp">self</span>):
+        <span class="bp">self</span>.name = <span class="s">"vazor"</span>
+        <span class="bp">self</span>.role = <span class="s">"Backend Engineer"</span>
+        <span class="bp">self</span>.tools = [<span class="s">"Python"</span>, <span class="s">"Docker"</span>, <span class="s">"FastAPI"</span>]
+
+    <span class="k">def</span> <span class="nf">get_motto</span>(<span class="bp">self</span>):
+        <span class="k">return</span> <span class="s">"Automate everything"</span>
+
+<span class="c1"># Инициализация объекта</span>
+me = Developer()
+<span class="k">print</span>(f<span class="s">"Status: {me.get_motto()}"</span>)
+                        </code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="stats-bar glass animate-in">
+            <div class="stat-item">
+                <span class="stat-num">3+</span>
+                <span class="stat-text">Года в Python</span>
+            </div>
+            <div class="divider"></div>
+            <div class="stat-item">
+                <span class="stat-num">15+</span>
+                <span class="stat-text">Завершенных проектов</span>
+            </div>
+            <div class="divider"></div>
+            <div class="stat-item">
+                <span class="stat-num">100%</span>
+                <span class="stat-text">Self-taught</span>
+            </div>
+        </div>
+
+        <section class="section" id="skills">
+            <h2 class="section-heading"><span class="accent-color">01.</span> Мой Стек</h2>
+            <div class="skills-container">
+                <div class="skill-category-card glass">
+                    <div class="category-icon"><i class="fas fa-code"></i></div>
                     <h3>Core</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag python">Python</span>
-                        <span class="skill-tag js">JavaScript</span>
-                        <span class="skill-tag html">HTML5</span>
-                        <span class="skill-tag css">CSS</span>
+                    <ul class="skill-list">
+                        <li>Python (Asyncio, Typing)</li>
+                        <li>JavaScript (ES6+)</li>
+                        <li>SQL & NoSQL</li>
+                        <li>Algorithms & Patterns</li>
+                    </ul>
+                </div>
+                <div class="skill-category-card glass">
+                    <div class="category-icon"><i class="fas fa-server"></i></div>
+                    <h3>Backend</h3>
+                    <ul class="skill-list">
+                        <li>Django / DRF</li>
+                        <li>FastAPI / Flask</li>
+                        <li>PostgreSQL / Redis</li>
+                        <li>Celery / RabbitMQ</li>
+                    </ul>
+                </div>
+                <div class="skill-category-card glass">
+                    <div class="category-icon"><i class="fas fa-tools"></i></div>
+                    <h3>DevOps & Tools</h3>
+                    <ul class="skill-list">
+                        <li>Docker & Compose</li>
+                        <li>Linux (Ubuntu/Debian)</li>
+                        <li>Git / GitHub Actions</li>
+                        <li>Nginx / Gunicorn</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-heading"><span class="accent-color">02.</span> Путь в IT</h2>
+            <div class="timeline glass">
+                <div class="timeline-item">
+                    <div class="time">2014</div>
+                    <div class="content">
+                        <h4>Первый контакт</h4>
+                        <p>Начал изучать устройство ПК и базовую логику в возрасте 7 лет.</p>
                     </div>
                 </div>
-                
-                <!-- Column 2: Frameworks -->
-                <div class="skill-category">
-                    <h3>Frameworks</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag flask">Flask</span>
-                        <span class="skill-tag django">Django</span>
+                <div class="timeline-item">
+                    <div class="time">2019</div>
+                    <div class="content">
+                        <h4>Знакомство с Python</h4>
+                        <p>Написал первую программу на Python. Понял, что это любовь.</p>
                     </div>
                 </div>
-                
-                <!-- Column 3: Tools -->
-                <div class="skill-category">
-                    <h3>Tools & Systems</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag mysql">MySQL</span>
-                        <span class="skill-tag git">Git</span>
-                        <span class="skill-tag linux">Linux</span>
-                        <span class="skill-tag docker">Docker</span>
-                        <span class="skill-tag vscode">VS Code</span>
+                <div class="timeline-item">
+                    <div class="time">Сегодня</div>
+                    <div class="content">
+                        <h4>Full-stack & DevOps</h4>
+                        <p>Разрабатываю сложные веб-сервисы и автоматизирую деплой через Docker.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- What I Do -->
-        <section class="section">
-            <h2 class="section-title">
-                <span class="tag">💻</span> What I Do
-            </h2>
-            <div class="activities-grid">
-                <div class="activity-card">
-                    <div class="activity-icon">🛠️</div>
-                    <h3>Full-Stack Development</h3>
-                    <p>Developing web apps using Python & modern frameworks</p>
-                </div>
-                <div class="activity-card">
-                    <div class="activity-icon">🌐</div>
-                    <h3>Deployment & Hosting</h3>
-                    <p>Hosting and deploying personal projects on cloud servers</p>
-                </div>
-                <div class="activity-card">
-                    <div class="activity-icon">🧪</div>
-                    <h3>APIs & Automation</h3>
-                    <p>Experimenting with APIs, automation scripts, and CLI tools</p>
-                </div>
-                <div class="activity-card">
-                    <div class="activity-icon">📦</div>
-                    <h3>Containerization</h3>
-                    <p>Containerizing apps with Docker for clean, scalable environments</p>
-                </div>
-            </div>
-            
-            <!-- VS Code Terminal -->
-            <div class="terminal">
-                <div class="terminal-header">
-                    <div class="terminal-dots">
-                        <span class="dot red"></span>
-                        <span class="dot yellow"></span>
-                        <span class="dot green"></span>
-                    </div>
-                    <div class="terminal-title">vazor@portfolio:~</div>
-                </div>
-                <div class="terminal-body">
-                    <p><span class="prompt">$</span> whoami</p>
-                    <p><span class="output">vazor - Python Developer & Tech Enthusiast</span></p>
-                    <p><span class="prompt">$</span> cat current_projects.txt</p>
-                    <p><span class="output">• UptimeMonitor<br>• PassVault<br>• VPScope</span></p>
-                    <p><span class="prompt">$</span> <span class="cursor">█</span></p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Fun Facts -->
-        <section class="section">
-            <h2 class="section-title">
-                <span class="tag">🎮</span> Fun Facts & Hobbies
-            </h2>
-            <div class="fun-facts">
-                <div class="fact">
-                    <span class="fact-emoji">🕹️</span>
-                    <div>
-                        <strong>Passionate gamer</strong> — love strategy, sandbox, and indie games
-                    </div>
-                </div>
-                <div class="fact">
-                    <span class="fact-emoji">🤖</span>
-                    <div>
-                        <strong>Curious about "under the hood"</strong> — how software really works
-                    </div>
-                </div>
-                <div class="fact">
-                    <span class="fact-emoji">🧩</span>
-                    <div>
-                        <strong>Logic puzzles & algorithms</strong> — obsessed with optimization
-                    </div>
-                </div>
-                <div class="fact">
-                    <span class="fact-emoji">⚙️</span>
-                    <div>
-                        <strong>Automation addict</strong> — even turning lights on/off!
-                    </div>
-                </div>
-                <div class="fact">
-                    <span class="fact-emoji">📚</span>
-                    <div>
-                        <strong>Self-taught learner</strong> — loves diving into documentation
-                    </div>
-                </div>
-                <div class="fact">
-                    <span class="fact-emoji">🧪</span>
-                    <div>
-                        <strong>Always testing</strong> — new tools, libraries, and frameworks
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Projects -->
-        <section class="section">
-            <h2 class="section-title">
-                <span class="tag">🚀</span> Featured Projects
-            </h2>
+        <section class="section" id="projects">
+            <h2 class="section-heading"><span class="accent-color">03.</span> Проекты</h2>
             <div class="projects-grid" id="projectsGrid">
-                <!-- Projects will be loaded by JavaScript -->
+                <div class="project-card glass">
+                    <div class="project-image">
+                        <div class="image-placeholder">UptimeMonitor</div>
+                    </div>
+                    <div class="project-info">
+                        <h3>UptimeMonitor Tool</h3>
+                        <p>Система мониторинга серверов с уведомлениями в Telegram.</p>
+                        <div class="project-tags">
+                            <span>Python</span>
+                            <span>API</span>
+                            <span>Redis</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- Footer -->
-        <footer class="footer">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <pre class="footer-ascii">
- _  _  __    ____  _____  ____ 
-( \/ )/__\  (_   )(  _  )(  _ \
- \  //(__)\  / /_  )(_)(  )   /
-  \/(__)(__)(____)(_____)(_)\_)
-                    </pre>
+        <footer class="main-footer glass" id="contact">
+            <div class="footer-grid">
+                <div class="footer-info">
+                    <div class="footer-logo">vazor</div>
+                    <p>Всегда открыт к новым вызовам и интересным архитектурным задачам.</p>
                 </div>
-                <div class="footer-links">
-                    <a href="https://github.com/vazor-code" class="social-link" target="_blank">
-                        <i class="fab fa-github"></i> GitHub
-                    </a>
-                    <a href="mailto:vazorcode@gmail.com" class="social-link">
-                        <i class="fas fa-envelope"></i> Email
-                    </a>
-                    <a href="#" class="social-link">
-                        <i class="fas fa-code"></i> Blog
-                    </a>
+                <div class="footer-links-group">
+                    <h4>Контакты</h4>
+                    <a href="mailto:vazorcode@gmail.com"><i class="fas fa-envelope"></i> vazorcode@gmail.com</a>
+                    <a href="https://t.me/your_telegram"><i class="fab fa-telegram"></i> Telegram</a>
                 </div>
-                <p class="footer-text">
-                    Built with 🐍 & ❤️ by vazor<br>
-                    <span class="footer-subtext">Always curious, always coding</span>
-                </p>
+                <div class="footer-social">
+                    <h4>Соцсети</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-dev"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 vazor. Built with 🐍 and <span class="heart">❤️</span></p>
+                <p class="footer-status">Always curious, always coding</p>
             </div>
         </footer>
+
     </div>
 
     <script src="script.js"></script>
