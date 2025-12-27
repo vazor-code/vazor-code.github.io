@@ -8,7 +8,757 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #1e293b;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --text: #f8fafc;
+            --text-secondary: #94a3b8;
+            --glass: rgba(30, 41, 59, 0.7);
+            --glass-border: rgba(148, 163, 184, 0.1);
+            --shadow: rgba(0, 0, 0, 0.25);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--primary);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Фоновые элементы */
+        .bg-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.2;
+        }
+        
+        .blob-1 {
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            top: -200px;
+            right: -100px;
+            animation: float 25s infinite ease-in-out;
+        }
+        
+        .blob-2 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            bottom: -150px;
+            left: -100px;
+            animation: float 30s infinite ease-in-out reverse;
+        }
+        
+        .grid-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(148, 163, 184, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(148, 163, 184, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+        
+        /* Навигация */
+        .glass-nav {
+            backdrop-filter: blur(10px);
+            background: var(--glass);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-logo {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-logo span {
+            color: #10b981;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* Кнопки */
+        .btn-primary, .btn-secondary {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--glass-border);
+        }
+        
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+        
+        /* ASCII арт */
+        .ascii-container {
+            text-align: center;
+            padding: 40px 0;
+            font-family: 'Fira Code', monospace;
+        }
+        
+        .ascii-art {
+            color: var(--accent);
+            font-size: 12px;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+        
+        .terminal-loader {
+            display: inline-block;
+            background: rgba(15, 23, 42, 0.8);
+            padding: 15px 20px;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+            font-family: 'Fira Code', monospace;
+        }
+        
+        .command {
+            color: #10b981;
+        }
+        
+        .cursor {
+            animation: blink 1s infinite;
+            color: var(--accent);
+        }
+        
+        /* Герой секция */
+        .hero-section {
+            padding: 40px 0 80px;
+        }
+        
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .badge {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+        }
+        
+        .gradient-text {
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .wave {
+            display: inline-block;
+            animation: wave 2s infinite;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+        
+        .hero-description {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            color: var(--text-secondary);
+        }
+        
+        .hero-actions {
+            display: flex;
+            gap: 15px;
+        }
+        
+        /* Окно с кодом */
+        .code-window {
+            background: rgba(15, 23, 42, 0.9);
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            overflow: hidden;
+        }
+        
+        .window-header {
+            background: rgba(30, 41, 59, 0.9);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        
+        .dots {
+            display: flex;
+            gap: 8px;
+            margin-right: 15px;
+        }
+        
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .red { background: #ef4444; }
+        .yellow { background: #f59e0b; }
+        .green { background: #10b981; }
+        
+        .file-name {
+            font-family: 'Fira Code', monospace;
+            color: var(--text-secondary);
+        }
+        
+        .window-body {
+            padding: 20px;
+        }
+        
+        .window-body pre {
+            margin: 0;
+            overflow-x: auto;
+        }
+        
+        .window-body code {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .window-body .k { color: #3b82f6; }
+        .window-body .nc { color: #10b981; }
+        .window-body .nf { color: #8b5cf6; }
+        .window-body .s { color: #f59e0b; }
+        .window-body .c1 { color: var(--text-secondary); }
+        
+        /* Стек технологий */
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            padding: 30px;
+            margin-bottom: 80px;
+            border-radius: 16px;
+        }
+        
+        @media (max-width: 768px) {
+            .stats-bar {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-num {
+            display: block;
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .stat-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .divider {
+            width: 1px;
+            background: var(--glass-border);
+        }
+        
+        @media (max-width: 768px) {
+            .divider {
+                width: 100%;
+                height: 1px;
+            }
+        }
+        
+        /* Секции */
+        .section {
+            margin-bottom: 100px;
+        }
+        
+        .section-heading {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+        }
+        
+        .accent-color {
+            color: var(--accent);
+        }
+        
+        /* Стек навыков */
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .skill-category-card {
+            padding: 30px;
+            border-radius: 16px;
+            transition: transform 0.3s;
+        }
+        
+        .skill-category-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .category-icon {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+        
+        .skill-category-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .skill-list {
+            list-style: none;
+        }
+        
+        .skill-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+        }
+        
+        .skill-list li:last-child {
+            border-bottom: none;
+        }
+        
+        /* Таймлайн */
+        .timeline {
+            padding: 40px;
+            border-radius: 16px;
+            position: relative;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50px;
+            top: 80px;
+            bottom: 80px;
+            width: 2px;
+            background: var(--accent);
+            opacity: 0.3;
+        }
+        
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 20px;
+            }
+        }
+        
+        .timeline-item {
+            display: flex;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .time {
+            min-width: 100px;
+            font-family: 'Fira Code', monospace;
+            font-weight: 600;
+            color: var(--accent);
+            padding-right: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .time {
+                min-width: 80px;
+            }
+        }
+        
+        .timeline-item .content {
+            flex: 1;
+            padding-left: 30px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 46px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 3px solid var(--secondary);
+        }
+        
+        @media (max-width: 768px) {
+            .timeline-item::before {
+                left: 16px;
+            }
+        }
+        
+        /* Проекты */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .project-card {
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .project-image {
+            height: 180px;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Fira Code', monospace;
+            font-size: 1.5rem;
+            color: var(--accent);
+            border-bottom: 1px solid var(--glass-border);
+        }
+        
+        .project-info {
+            padding: 25px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .project-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+        
+        .project-info p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            flex: 1;
+        }
+        
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .project-tags span {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-family: 'Fira Code', monospace;
+        }
+        
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: gap 0.3s;
+        }
+        
+        .project-link:hover {
+            gap: 12px;
+        }
+        
+        /* Футер */
+        .main-footer {
+            margin-top: 100px;
+            padding: 50px;
+            border-radius: 20px 20px 0 0;
+            border-top: 1px solid var(--glass-border);
+            border-left: 1px solid var(--glass-border);
+            border-right: 1px solid var(--glass-border);
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-logo {
+            font-family: 'Fira Code', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+        }
+        
+        .footer-info p {
+            color: var(--text-secondary);
+        }
+        
+        .footer-links-group h4, .footer-social h4 {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        
+        .footer-links-group a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text);
+            text-decoration: none;
+            margin-bottom: 10px;
+            transition: color 0.3s;
+        }
+        
+        .footer-links-group a:hover {
+            color: var(--accent);
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 10px;
+            color: var(--accent);
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+        
+        .social-icons a:hover {
+            background: var(--accent);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            padding-top: 30px;
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-secondary);
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .footer-status {
+            font-family: 'Fira Code', monospace;
+            color: #10b981;
+        }
+        
+        .heart {
+            color: #ef4444;
+            animation: heartbeat 1.5s infinite;
+        }
+        
+        /* Glass эффект */
+        .glass {
+            backdrop-filter: blur(10px);
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+        }
+        
+        /* Анимации */
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(20deg); }
+            75% { transform: rotate(-10deg); }
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .animate-pop {
+            animation: popIn 0.5s ease-out;
+        }
+        
+        .animate-in {
+            animation: slideUp 0.8s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
 </head>
 <body>
 
@@ -61,7 +811,7 @@
                     </p>
                     <div class="hero-actions">
                         <a href="#projects" class="btn-primary">Смотреть проекты</a>
-                        <a href="https://github.com/vazor-code" class="btn-secondary">
+                        <a href="https://github.com/vazor-code" class="btn-secondary" target="_blank">
                             <i class="fab fa-github"></i> GitHub
                         </a>
                     </div>
@@ -179,20 +929,7 @@ me = Developer()
         <section class="section" id="projects">
             <h2 class="section-heading"><span class="accent-color">03.</span> Проекты</h2>
             <div class="projects-grid" id="projectsGrid">
-                <div class="project-card glass">
-                    <div class="project-image">
-                        <div class="image-placeholder">UptimeMonitor</div>
-                    </div>
-                    <div class="project-info">
-                        <h3>UptimeMonitor Tool</h3>
-                        <p>Система мониторинга серверов с уведомлениями в Telegram.</p>
-                        <div class="project-tags">
-                            <span>Python</span>
-                            <span>API</span>
-                            <span>Redis</span>
-                        </div>
-                    </div>
-                </div>
+                <!-- Проекты будут вставлены сюда -->
             </div>
         </section>
 
@@ -205,12 +942,12 @@ me = Developer()
                 <div class="footer-links-group">
                     <h4>Контакты</h4>
                     <a href="mailto:vazorcode@gmail.com"><i class="fas fa-envelope"></i> vazorcode@gmail.com</a>
-                    <a href="https://t.me/your_telegram"><i class="fab fa-telegram"></i> Telegram</a>
+                    <a href="https://t.me/vazor_code" target="_blank"><i class="fab fa-telegram"></i> Telegram</a>
                 </div>
                 <div class="footer-social">
                     <h4>Соцсети</h4>
                     <div class="social-icons">
-                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="https://github.com/vazor-code" target="_blank"><i class="fab fa-github"></i></a>
                         <a href="#"><i class="fab fa-linkedin"></i></a>
                         <a href="#"><i class="fab fa-dev"></i></a>
                     </div>
@@ -224,6 +961,104 @@ me = Developer()
 
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        const projects = [
+            {
+                title: "UptimeMonitor",
+                desc: "Бот для мониторинга доступности серверов в реальном времени.",
+                tech: ["Python", "Flask", "Requests"],
+                link: "https://github.com/vazor-code/UptimeMonitor"
+            },
+            {
+                title: "PassVault",
+                desc: "Безопасный менеджер паролей с шифрованием AES-256.",
+                tech: ["Python", "Cryptography", "SQLite"],
+                link: "https://github.com/vazor-code/PassVault"
+            },
+            {
+                title: "VPScope",
+                desc: "CLI инструмент для анализа статистики Linux серверов.",
+                tech: ["Python", "Psutil", "Rich"],
+                link: "https://github.com/vazor-code/VPScope"
+            }
+        ];
+
+        // Генерация проектов
+        document.addEventListener('DOMContentLoaded', function() {
+            const projectsGrid = document.getElementById('projectsGrid');
+            
+            projects.forEach(project => {
+                const projectCard = document.createElement('div');
+                projectCard.className = 'project-card glass';
+                
+                projectCard.innerHTML = `
+                    <div class="project-image">
+                        <div class="image-placeholder">${project.title}</div>
+                    </div>
+                    <div class="project-info">
+                        <h3>${project.title}</h3>
+                        <p>${project.desc}</p>
+                        <div class="project-tags">
+                            ${project.tech.map(tech => `<span>${tech}</span>`).join('')}
+                        </div>
+                        <a href="${project.link}" target="_blank" class="project-link">
+                            Подробнее <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                `;
+                
+                projectsGrid.appendChild(projectCard);
+            });
+
+            // Анимация появления элементов при скролле
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Наблюдаем за элементами для анимации
+            document.querySelectorAll('.skill-category-card, .timeline-item, .project-card').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(el);
+            });
+
+            // Плавная прокрутка для навигации
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+
+        // Анимация курсора в терминале
+        const cursor = document.querySelector('.cursor');
+        if (cursor) {
+            setInterval(() => {
+                cursor.style.opacity = cursor.style.opacity === '0' ? '1' : '0';
+            }, 500);
+        }
+    </script>
 </body>
 </html>
