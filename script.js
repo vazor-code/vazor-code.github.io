@@ -1,129 +1,36 @@
-// Projects data
 const projects = [
     {
         title: "UptimeMonitor",
-        description: "🚀 Monitor any website's uptime with instant Telegram alerts",
-        tech: ["Python", "Requests", "SQLite", "Flask"],
-        github: "https://github.com/vazor-code/UptimeMonitor",
-        live: "#",
-        status: "Completed"
+        desc: "Бот для мониторинга доступности серверов в реальном времени.",
+        tech: ["Python", "Flask", "Requests"],
+        link: "#"
     },
     {
         title: "PassVault",
-        description: "Простой зашифрованный менеджер паролей на Python. Позволяет хранить несколько паролей для одного сервиса, искать и удалять записи, а также генерировать безопасные пароли.",
-        tech: ["Python", "Fernet", "Cryptography"],
-        github: "https://github.com/vazor-code/PassVault",
-        live: "#",
-        status: "Completed"
+        desc: "Безопасный менеджер паролей с шифрованием AES-256.",
+        tech: ["Python", "Cryptography", "SQLite"],
+        link: "#"
     },
     {
         title: "VPScope",
-        description: "🌟 VPScope – monitor & manage your VPS like a pro! CPU, RAM, disk, network live stats, file management, terminal commands. Sleek web UI + fast Docker 🐳 setup.",
-        tech: ["Python", "Flask", "Docker"],
-        github: "https://github.com/vazor-code/VPScope",
-        live: "#",
-        status: "In Progress"
+        desc: "CLI инструмент для анализа статистики Linux серверов.",
+        tech: ["Python", "Psutil", "Rich"],
+        link: "#"
     }
 ];
 
-// Load projects
 function loadProjects() {
     const grid = document.getElementById('projectsGrid');
-    
-    projects.forEach(project => {
-        const projectCard = document.createElement('div');
-        projectCard.className = 'project-card';
-        
-        projectCard.innerHTML = `
-            <span class="project-badge">${project.status}</span>
-            <h3>${project.title}</h3>
-            <p>${project.description}</p>
-            <div class="project-tech">
-                ${project.tech.map(tech => `<span>${tech}</span>`).join('')}
+    grid.innerHTML = projects.map(p => `
+        <div class="stat-card" style="text-align: left; margin-bottom: 20px;">
+            <h3 style="color: #3fb950; margin-bottom: 10px;">${p.title}</h3>
+            <p style="font-size: 14px; color: #8b949e; margin-bottom: 15px;">${p.desc}</p>
+            <div class="skill-tags">
+                ${p.tech.map(t => `<span class="skill-tag">${t}</span>`).join('')}
             </div>
-            <div class="project-links">
-                <a href="${project.github}" class="project-link" target="_blank">
-                    <i class="fab fa-github"></i> Code
-                </a>
-                ${project.live !== '#' ? 
-                    `<a href="${project.live}" class="project-link" target="_blank">
-                        <i class="fas fa-external-link-alt"></i> Live Demo
-                    </a>` : ''
-                }
-            </div>
-        `;
-        
-        grid.appendChild(projectCard);
-    });
+            <a href="${p.link}" style="display: block; margin-top: 15px; color: white; text-decoration: none; font-size: 13px;">View Source →</a>
+        </div>
+    `).join('');
 }
 
-// Typewriter effect
-function typeWriter() {
-    const elements = document.querySelectorAll('.typewriter');
-    
-    elements.forEach(element => {
-        const text = element.textContent;
-        element.textContent = '';
-        
-        let i = 0;
-        function type() {
-            if (i < text.length) {
-                element.textContent += text.charAt(i);
-                i++;
-                setTimeout(type, 50);
-            }
-        }
-        
-        type();
-    });
-}
-
-// Initialize everything
-document.addEventListener('DOMContentLoaded', () => {
-    loadProjects();
-    typeWriter();
-    terminalTyping();
-    
-    // Add scroll animations
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate');
-            }
-        });
-    }, observerOptions);
-    
-    // Observe elements
-    document.querySelectorAll('.section, .stat-card, .project-card').forEach(el => {
-        observer.observe(el);
-    });
-    
-    // Add CSS for animations
-    const style = document.createElement('style');
-    style.textContent = `
-        .section, .stat-card, .project-card {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-        
-        .section.animate, .stat-card.animate, .project-card.animate {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    `;
-    document.head.appendChild(style);
-});
-
-// Add console greeting
-console.log(`%c👋 Hello from vazor's portfolio!`, 
-    'color: #00ff88; font-size: 18px; font-family: "Fira Code";'
-);
-console.log(`%c🚀 Check out my GitHub: https://github.com/vazor-code`, 
-    'color: #8a2be2; font-size: 14px;'
-);
+document.addEventListener('DOMContentLoaded', loadProjects);
