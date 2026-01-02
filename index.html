@@ -1,1060 +1,914 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>vazor | Python Developer Portfolio</title>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --primary: #0f172a;
-            --secondary: #1e293b;
-            --accent: #3b82f6;
-            --accent-hover: #2563eb;
-            --text: #f8fafc;
-            --text-secondary: #94a3b8;
-            --glass: rgba(30, 41, 59, 0.7);
-            --glass-border: rgba(148, 163, 184, 0.1);
-            --shadow: rgba(0, 0, 0, 0.25);
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--primary);
-            color: var(--text);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        /* Фоновые элементы */
-        .bg-wrapper {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
-        
-        .blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(40px);
-            opacity: 0.2;
-        }
-        
-        .blob-1 {
-            width: 500px;
-            height: 500px;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            top: -200px;
-            right: -100px;
-            animation: float 25s infinite ease-in-out;
-        }
-        
-        .blob-2 {
-            width: 400px;
-            height: 400px;
-            background: linear-gradient(135deg, #10b981, #3b82f6);
-            bottom: -150px;
-            left: -100px;
-            animation: float 30s infinite ease-in-out reverse;
-        }
-        
-        .grid-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(rgba(148, 163, 184, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(148, 163, 184, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-        }
-        
-        /* Навигация */
-        .glass-nav {
-            backdrop-filter: blur(10px);
-            background: var(--glass);
-            border-bottom: 1px solid var(--glass-border);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .nav-logo {
-            font-family: 'Fira Code', monospace;
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .nav-logo span {
-            color: #10b981;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 30px;
-            list-style: none;
-        }
-        
-        .nav-links a {
-            color: var(--text);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-            position: relative;
-        }
-        
-        .nav-links a:hover {
-            color: var(--accent);
-        }
-        
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent);
-            transition: width 0.3s;
-        }
-        
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-        
-        /* Кнопки */
-        .btn-primary, .btn-secondary {
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-        
-        .btn-primary {
-            background: var(--accent);
-            color: white;
-            border: none;
-        }
-        
-        .btn-primary:hover {
-            background: var(--accent-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
-        }
-        
-        .btn-secondary {
-            background: transparent;
-            color: var(--text);
-            border: 1px solid var(--glass-border);
-        }
-        
-        .btn-secondary:hover {
-            border-color: var(--accent);
-            transform: translateY(-2px);
-        }
-        
-        /* ASCII арт */
-        .ascii-container {
-            text-align: center;
-            padding: 40px 0;
-            font-family: 'Fira Code', monospace;
-        }
-        
-        .ascii-art {
-            color: var(--accent);
-            font-size: 12px;
-            line-height: 1.2;
-            margin-bottom: 20px;
-        }
-        
-        .terminal-loader {
-            display: inline-block;
-            background: rgba(15, 23, 42, 0.8);
-            padding: 15px 20px;
-            border-radius: 8px;
-            border: 1px solid var(--glass-border);
-            font-family: 'Fira Code', monospace;
-        }
-        
-        .command {
-            color: #10b981;
-        }
-        
-        .cursor {
-            animation: blink 1s infinite;
-            color: var(--accent);
-        }
-        
-        /* Герой секция */
-        .hero-section {
-            padding: 40px 0 80px;
-        }
-        
-        .hero-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            align-items: center;
-        }
-        
-        @media (max-width: 768px) {
-            .hero-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        .badge {
-            display: inline-block;
-            background: rgba(16, 185, 129, 0.2);
-            color: #10b981;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-        
-        .hero-title {
-            font-size: 3.5rem;
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 15px;
-        }
-        
-        @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2.5rem;
-            }
-        }
-        
-        .gradient-text {
-            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .wave {
-            display: inline-block;
-            animation: wave 2s infinite;
-        }
-        
-        .hero-subtitle {
-            font-size: 1.5rem;
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-        }
-        
-        .hero-description {
-            font-size: 1.1rem;
-            margin-bottom: 30px;
-            color: var(--text-secondary);
-        }
-        
-        .hero-actions {
-            display: flex;
-            gap: 15px;
-        }
-        
-        /* Окно с кодом */
-        .code-window {
-            background: rgba(15, 23, 42, 0.9);
-            border-radius: 12px;
-            border: 1px solid var(--glass-border);
-            overflow: hidden;
-        }
-        
-        .window-header {
-            background: rgba(30, 41, 59, 0.9);
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            border-bottom: 1px solid var(--glass-border);
-        }
-        
-        .dots {
-            display: flex;
-            gap: 8px;
-            margin-right: 15px;
-        }
-        
-        .dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-        
-        .red { background: #ef4444; }
-        .yellow { background: #f59e0b; }
-        .green { background: #10b981; }
-        
-        .file-name {
-            font-family: 'Fira Code', monospace;
-            color: var(--text-secondary);
-        }
-        
-        .window-body {
-            padding: 20px;
-        }
-        
-        .window-body pre {
-            margin: 0;
-            overflow-x: auto;
-        }
-        
-        .window-body code {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-        
-        .window-body .k { color: #3b82f6; }
-        .window-body .nc { color: #10b981; }
-        .window-body .nf { color: #8b5cf6; }
-        .window-body .s { color: #f59e0b; }
-        .window-body .c1 { color: var(--text-secondary); }
-        
-        /* Стек технологий */
-        .stats-bar {
-            display: flex;
-            justify-content: space-around;
-            padding: 30px;
-            margin-bottom: 80px;
-            border-radius: 16px;
-        }
-        
-        @media (max-width: 768px) {
-            .stats-bar {
-                flex-direction: column;
-                gap: 20px;
-                text-align: center;
-            }
-        }
-        
-        .stat-item {
-            text-align: center;
-        }
-        
-        .stat-num {
-            display: block;
-            font-size: 2.5rem;
-            font-weight: 800;
-            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .stat-text {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-        
-        .divider {
-            width: 1px;
-            background: var(--glass-border);
-        }
-        
-        @media (max-width: 768px) {
-            .divider {
-                width: 100%;
-                height: 1px;
-            }
-        }
-        
-        /* Секции */
-        .section {
-            margin-bottom: 100px;
-        }
-        
-        .section-heading {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 40px;
-        }
-        
-        .accent-color {
-            color: var(--accent);
-        }
-        
-        /* Стек навыков */
-        .skills-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        
-        .skill-category-card {
-            padding: 30px;
-            border-radius: 16px;
-            transition: transform 0.3s;
-        }
-        
-        .skill-category-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .category-icon {
-            font-size: 2rem;
-            color: var(--accent);
-            margin-bottom: 20px;
-        }
-        
-        .skill-category-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-        }
-        
-        .skill-list {
-            list-style: none;
-        }
-        
-        .skill-list li {
-            padding: 8px 0;
-            border-bottom: 1px solid var(--glass-border);
-            color: var(--text-secondary);
-        }
-        
-        .skill-list li:last-child {
-            border-bottom: none;
-        }
-        
-        /* Таймлайн */
-        .timeline {
-            padding: 40px;
-            border-radius: 16px;
-            position: relative;
-        }
-        
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 50px;
-            top: 80px;
-            bottom: 80px;
-            width: 2px;
-            background: var(--accent);
-            opacity: 0.3;
-        }
-        
-        @media (max-width: 768px) {
-            .timeline::before {
-                left: 20px;
-            }
-        }
-        
-        .timeline-item {
-            display: flex;
-            margin-bottom: 40px;
-            position: relative;
-        }
-        
-        .time {
-            min-width: 100px;
-            font-family: 'Fira Code', monospace;
-            font-weight: 600;
-            color: var(--accent);
-            padding-right: 20px;
-        }
-        
-        @media (max-width: 768px) {
-            .time {
-                min-width: 80px;
-            }
-        }
-        
-        .timeline-item .content {
-            flex: 1;
-            padding-left: 30px;
-        }
-        
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: 46px;
-            top: 5px;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--accent);
-            border: 3px solid var(--secondary);
-        }
-        
-        @media (max-width: 768px) {
-            .timeline-item::before {
-                left: 16px;
-            }
-        }
-        
-        /* Проекты */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 30px;
-        }
-        
-        @media (max-width: 768px) {
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        .project-card {
-            border-radius: 16px;
-            overflow: hidden;
-            transition: transform 0.3s;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .project-card:hover {
-            transform: translateY(-10px);
-        }
-        
-        .project-image {
-            height: 180px;
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Fira Code', monospace;
-            font-size: 1.5rem;
-            color: var(--accent);
-            border-bottom: 1px solid var(--glass-border);
-        }
-        
-        .project-info {
-            padding: 25px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .project-info h3 {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-        }
-        
-        .project-info p {
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-            flex: 1;
-        }
-        
-        .project-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-        
-        .project-tags span {
-            background: rgba(59, 130, 246, 0.1);
-            color: var(--accent);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-family: 'Fira Code', monospace;
-        }
-        
-        .project-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 600;
-            transition: gap 0.3s;
-        }
-        
-        .project-link:hover {
-            gap: 12px;
-        }
-        
-        /* Футер */
-        .main-footer {
-            margin-top: 100px;
-            padding: 50px;
-            border-radius: 20px 20px 0 0;
-            border-top: 1px solid var(--glass-border);
-            border-left: 1px solid var(--glass-border);
-            border-right: 1px solid var(--glass-border);
-        }
-        
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-        
-        .footer-logo {
-            font-family: 'Fira Code', monospace;
-            font-size: 2rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 15px;
-        }
-        
-        .footer-info p {
-            color: var(--text-secondary);
-        }
-        
-        .footer-links-group h4, .footer-social h4 {
-            margin-bottom: 20px;
-            font-size: 1.2rem;
-        }
-        
-        .footer-links-group a {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--text);
-            text-decoration: none;
-            margin-bottom: 10px;
-            transition: color 0.3s;
-        }
-        
-        .footer-links-group a:hover {
-            color: var(--accent);
-        }
-        
-        .social-icons {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .social-icons a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 45px;
-            height: 45px;
-            background: rgba(59, 130, 246, 0.1);
-            border-radius: 10px;
-            color: var(--accent);
-            font-size: 1.2rem;
-            transition: all 0.3s;
-        }
-        
-        .social-icons a:hover {
-            background: var(--accent);
-            color: white;
-            transform: translateY(-3px);
-        }
-        
-        .footer-bottom {
-            padding-top: 30px;
-            border-top: 1px solid var(--glass-border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: var(--text-secondary);
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        
-        .footer-status {
-            font-family: 'Fira Code', monospace;
-            color: #10b981;
-        }
-        
-        .heart {
-            color: #ef4444;
-            animation: heartbeat 1.5s infinite;
-        }
-        
-        /* Glass эффект */
-        .glass {
-            backdrop-filter: blur(10px);
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-        }
-        
-        /* Анимации */
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(30px, -30px) rotate(120deg); }
-            66% { transform: translate(-20px, 20px) rotate(240deg); }
-        }
-        
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-        
-        @keyframes wave {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(20deg); }
-            75% { transform: rotate(-10deg); }
-        }
-        
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-        
-        .fade-in {
-            animation: fadeIn 1s ease-out;
-        }
-        
-        .animate-pop {
-            animation: popIn 0.5s ease-out;
-        }
-        
-        .animate-in {
-            animation: slideUp 0.8s ease-out;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        @keyframes popIn {
-            0% { transform: scale(0.8); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        
-        @keyframes slideUp {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="dark light" />
+  <title>vazor — Python Developer • Automation • Security Tools</title>
+
+  <!-- SEO -->
+  <meta name="description" content="vazor — Python developer building web services, automation systems, and security tools. Featured projects: CyberFind (OSINT), UptimeMonitor (Telegram alerts), PassVault (encrypted vault)." />
+  <meta property="og:title" content="vazor — Portfolio" />
+  <meta property="og:description" content="Python • Backend • Automation • Security Tools" />
+  <meta property="og:type" content="website" />
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    :root{
+      --bg: #070A13;
+      --bg2:#0B1022;
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.04);
+      --border: rgba(255,255,255,.10);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.70);
+      --muted2: rgba(255,255,255,.55);
+      --shadow: rgba(0,0,0,.40);
+
+      --accent: #7C3AED;       /* violet */
+      --accent2:#22C55E;       /* green  */
+      --accent3:#38BDF8;       /* sky    */
+      --warn:#F59E0B;
+
+      --radius: 18px;
+      --radius2: 26px;
+      --max: 1120px;
+
+      --mono: "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --sans: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+
+    /* Light theme */
+    [data-theme="light"]{
+      --bg: #F7F8FF;
+      --bg2:#FFFFFF;
+      --card: rgba(0,0,0,.04);
+      --card2: rgba(0,0,0,.03);
+      --border: rgba(0,0,0,.10);
+      --text: rgba(0,0,0,.88);
+      --muted: rgba(0,0,0,.65);
+      --muted2: rgba(0,0,0,.50);
+      --shadow: rgba(0,0,0,.12);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      color:var(--text);
+      background: radial-gradient(1200px 700px at 15% 10%, rgba(124,58,237,.20), transparent 55%),
+                  radial-gradient(900px 600px at 85% 20%, rgba(56,189,248,.14), transparent 55%),
+                  radial-gradient(900px 700px at 35% 95%, rgba(34,197,94,.13), transparent 60%),
+                  linear-gradient(180deg, var(--bg), var(--bg2));
+      overflow-x:hidden;
+    }
+
+    a{color:inherit}
+    .wrap{max-width:var(--max); margin:0 auto; padding:0 18px}
+    .mono{font-family:var(--mono)}
+    .muted{color:var(--muted)}
+    .muted2{color:var(--muted2)}
+    .chip{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:9px 14px; border-radius:999px;
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+      border:1px solid var(--border);
+      box-shadow: 0 12px 30px var(--shadow);
+      backdrop-filter: blur(10px);
+      font-weight:600;
+      letter-spacing:.2px;
+    }
+    .chip i{opacity:.9}
+
+    /* Aurora animated blob layer (subtle) */
+    .aurora{
+      position:fixed; inset:-20%;
+      z-index:-2;
+      filter: blur(40px);
+      opacity:.75;
+      pointer-events:none;
+    }
+    .aurora::before,
+    .aurora::after{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(600px 500px at 20% 30%, rgba(124,58,237,.35), transparent 60%),
+        radial-gradient(700px 600px at 80% 20%, rgba(56,189,248,.28), transparent 62%),
+        radial-gradient(650px 550px at 55% 85%, rgba(34,197,94,.25), transparent 62%);
+      transform: translate3d(0,0,0);
+      animation: floaty 16s ease-in-out infinite;
+    }
+    .aurora::after{
+      opacity:.75;
+      animation-duration: 22s;
+      animation-direction: reverse;
+    }
+    @keyframes floaty{
+      0%,100%{ transform: translate(0,0) scale(1); }
+      25%{ transform: translate(3%, -2%) scale(1.02); }
+      50%{ transform: translate(-2%, 3%) scale(1.04); }
+      75%{ transform: translate(2%, 2%) scale(1.01); }
+    }
+
+    /* Header / Nav */
+    header{
+      position:sticky; top:0; z-index:50;
+      background: rgba(10,14,28,.55);
+      backdrop-filter: blur(14px);
+      border-bottom:1px solid var(--border);
+    }
+    [data-theme="light"] header{ background: rgba(255,255,255,.70); }
+    .nav{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 0;
+      gap:14px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      text-decoration:none;
+    }
+    .brand-badge{
+      width:40px; height:40px; border-radius:14px;
+      display:grid; place-items:center;
+      background: linear-gradient(135deg, rgba(124,58,237,.25), rgba(56,189,248,.18));
+      border:1px solid var(--border);
+      box-shadow: 0 10px 30px var(--shadow);
+    }
+    .brand-badge i{color:var(--accent3)}
+    .brand-title{
+      display:flex; flex-direction:column; line-height:1.05;
+    }
+    .brand-title strong{
+      font-size:14px; letter-spacing:.3px;
+    }
+    .brand-title span{
+      font-size:12px; color:var(--muted2); font-family:var(--mono);
+    }
+
+    .nav-links{
+      display:flex; align-items:center; gap:18px;
+    }
+    .nav-links a{
+      text-decoration:none;
+      font-weight:600;
+      color:var(--muted);
+      padding:10px 12px;
+      border-radius:12px;
+      transition: .2s ease;
+    }
+    .nav-links a:hover{
+      color:var(--text);
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.08);
+    }
+
+    .nav-actions{display:flex; align-items:center; gap:10px}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:10px;
+      padding:11px 14px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.05);
+      color:var(--text);
+      text-decoration:none;
+      font-weight:700;
+      cursor:pointer;
+      transition:.2s ease;
+      user-select:none;
+    }
+    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.08); }
+    .btn.primary{
+      border:none;
+      background: linear-gradient(135deg, var(--accent), rgba(56,189,248,.55));
+      box-shadow: 0 12px 32px rgba(124,58,237,.25);
+    }
+    .btn.primary:hover{ box-shadow: 0 16px 40px rgba(124,58,237,.35); }
+    .icon-btn{
+      width:44px; height:44px; padding:0;
+      border-radius:14px;
+    }
+
+    /* Mobile menu */
+    .burger{display:none}
+    @media (max-width: 860px){
+      .nav-links{display:none}
+      .burger{display:inline-flex}
+    }
+    .mobile{
+      display:none;
+      padding:10px 0 16px;
+    }
+    .mobile a{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 14px;
+      border-radius:16px;
+      text-decoration:none;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      margin-top:10px;
+      color:var(--text);
+      font-weight:700;
+    }
+    .mobile a span{color:var(--muted2); font-weight:600; font-family:var(--mono); font-size:12px}
+    .mobile.show{display:block}
+
+    /* Sections */
+    main{padding:34px 0 70px}
+    section{margin-top:70px}
+    .section-title{
+      display:flex; align-items:flex-end; justify-content:space-between; gap:16px;
+      margin-bottom:18px;
+    }
+    .section-title h2{
+      margin:0;
+      font-size:26px;
+      letter-spacing:-.2px;
+    }
+    .section-title p{
+      margin:0;
+      color:var(--muted2);
+      font-weight:600;
+      font-family:var(--mono);
+      font-size:12px;
+    }
+
+    /* Hero */
+    .hero{
+      margin-top:10px;
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:22px;
+      align-items:stretch;
+    }
+    @media (max-width: 980px){ .hero{grid-template-columns:1fr; } }
+
+    .card{
+      border:1px solid var(--border);
+      background: linear-gradient(180deg, var(--card), var(--card2));
+      border-radius: var(--radius2);
+      box-shadow: 0 20px 60px var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+    .hero-left{padding:26px}
+    .hero-right{padding:18px}
+
+    .hero-top{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      margin-bottom:18px;
+    }
+    .status{
+      display:inline-flex; align-items:center; gap:10px;
+      font-family:var(--mono);
+      font-size:12px;
+      color:var(--muted);
+    }
+    .dot{
+      width:10px; height:10px; border-radius:99px;
+      background: var(--accent2);
+      box-shadow: 0 0 0 6px rgba(34,197,94,.15);
+    }
+    h1{
+      margin:10px 0 10px;
+      font-size:44px;
+      line-height:1.03;
+      letter-spacing:-1px;
+    }
+    @media (max-width: 520px){ h1{font-size:36px} }
+
+    .grad{
+      background: linear-gradient(135deg, var(--accent), var(--accent3));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+    .lead{
+      margin:0;
+      font-size:16px;
+      color:var(--muted);
+      line-height:1.6;
+    }
+    .hero-cta{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top:18px;
+    }
+    .meta-row{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top:16px;
+    }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      color:var(--muted);
+      font-weight:700;
+      font-size:13px;
+    }
+    .pill i{color:var(--accent3)}
+    .pill .mono{font-size:12px; color:var(--muted2); font-weight:600}
+
+    /* Terminal */
+    .terminal{
+      border-radius: 18px;
+      overflow:hidden;
+      border:1px solid var(--border);
+      background: rgba(0,0,0,.22);
+    }
+    [data-theme="light"] .terminal{ background: rgba(255,255,255,.45); }
+    .terminal-head{
+      display:flex; align-items:center; gap:10px;
+      padding:12px 14px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.04);
+    }
+    .dots{display:flex; gap:7px}
+    .dots span{width:10px;height:10px;border-radius:99px; display:inline-block}
+    .dots .r{background:#ef4444}
+    .dots .y{background:#f59e0b}
+    .dots .g{background:#22c55e}
+    .term-title{font-family:var(--mono); color:var(--muted2); font-size:12px}
+    .terminal-body{
+      padding:14px;
+      font-family:var(--mono);
+      font-size:13px;
+      line-height:1.55;
+      color:rgba(255,255,255,.86);
+    }
+    [data-theme="light"] .terminal-body{ color: rgba(0,0,0,.80); }
+    .k{color:var(--accent3)}
+    .fn{color:var(--accent)}
+    .s{color:var(--warn)}
+    .cm{color:var(--muted2)}
+    .cursor{
+      display:inline-block;
+      width:8px;
+      height:14px;
+      background: var(--accent3);
+      margin-left:2px;
+      vertical-align:-2px;
+      animation: blink 1s infinite;
+    }
+    @keyframes blink{ 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* Grids */
+    .grid{
+      display:grid; gap:14px;
+      grid-template-columns: repeat(12, 1fr);
+    }
+    .span-6{grid-column: span 6}
+    .span-4{grid-column: span 4}
+    .span-8{grid-column: span 8}
+    .span-12{grid-column: span 12}
+    @media (max-width: 900px){
+      .span-6,.span-4,.span-8{grid-column: span 12}
+    }
+
+    .mini{
+      padding:18px;
+      border-radius: var(--radius);
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+    }
+    .mini h3{margin:0 0 8px; font-size:16px}
+    .mini p{margin:0; color:var(--muted); font-size:14px}
+
+    /* Skills */
+    .tags{display:flex; gap:8px; flex-wrap:wrap; margin-top:12px}
+    .tag{
+      font-family:var(--mono);
+      font-size:12px;
+      padding:7px 10px;
+      border-radius: 999px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      color:var(--muted);
+    }
+
+    /* Projects */
+    .project{
+      padding:18px;
+      border-radius: var(--radius);
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      display:flex;
+      flex-direction:column;
+      min-height: 170px;
+      transition: .18s ease;
+    }
+    .project:hover{ transform: translateY(-4px); background: rgba(255,255,255,.06); }
+    .project-top{
+      display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+      margin-bottom:10px;
+    }
+    .project h3{
+      margin:0;
+      font-size:16px;
+      letter-spacing:-.2px;
+    }
+    .project p{ margin:0; color:var(--muted); font-size:14px; line-height:1.5; flex:1; }
+    .project .meta{
+      margin-top:12px;
+      display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;
+      color:var(--muted2);
+      font-family:var(--mono);
+      font-size:12px;
+    }
+    .project .meta a{
+      display:inline-flex; align-items:center; gap:8px;
+      color:var(--text);
+      text-decoration:none;
+      font-weight:800;
+      font-family:var(--sans);
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+    }
+    .project .meta a:hover{ background: rgba(255,255,255,.07); transform: translateY(-1px); }
+
+    /* Footer */
+    footer{
+      margin-top:80px;
+      padding:22px 0 44px;
+      border-top:1px solid var(--border);
+      color:var(--muted2);
+    }
+    .foot{
+      display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;
+    }
+    .social{display:flex; gap:10px}
+    .social a{
+      width:44px;height:44px;
+      display:grid; place-items:center;
+      border-radius: 14px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      text-decoration:none;
+    }
+    .social a:hover{ background: rgba(255,255,255,.08); transform: translateY(-1px); }
+
+    /* Reveal */
+    .reveal{ opacity:0; transform: translateY(16px); transition: .7s ease; }
+    .reveal.show{ opacity:1; transform: translateY(0); }
+
+    /* Reduce motion */
+    @media (prefers-reduced-motion: reduce){
+      *{animation:none!important; transition:none!important; scroll-behavior:auto!important;}
+      .aurora{display:none}
+    }
+  </style>
 </head>
+
 <body>
+  <div class="aurora" aria-hidden="true"></div>
 
-    <div class="bg-wrapper">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="grid-overlay"></div>
+  <header>
+    <div class="wrap">
+      <div class="nav">
+        <a class="brand" href="#top">
+          <div class="brand-badge" aria-hidden="true"><i class="fa-solid fa-code"></i></div>
+          <div class="brand-title">
+            <strong>vazor</strong>
+            <span class="mono">@vazor-code</span>
+          </div>
+        </a>
+
+        <nav class="nav-links" aria-label="Primary">
+          <a href="#about">About</a>
+          <a href="#skills">Stack</a>
+          <a href="#projects">Projects</a>
+          <a href="#contact">Contact</a>
+        </nav>
+
+        <div class="nav-actions">
+          <button class="btn icon-btn burger" id="burger" aria-label="Open menu">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+
+          <button class="btn icon-btn" id="themeBtn" aria-label="Toggle theme" title="Toggle theme">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+
+          <a class="btn primary" href="https://github.com/vazor-code" target="_blank" rel="noopener">
+            <i class="fa-brands fa-github"></i> GitHub
+          </a>
+        </div>
+      </div>
+
+      <div class="mobile" id="mobile">
+        <a href="#about">About <span>01</span></a>
+        <a href="#skills">Stack <span>02</span></a>
+        <a href="#projects">Projects <span>03</span></a>
+        <a href="#contact">Contact <span>04</span></a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap" id="top">
+    <!-- HERO -->
+    <div class="hero">
+      <section class="card hero-left reveal">
+        <div class="hero-top">
+          <span class="chip"><i class="fa-solid fa-sparkles"></i> Building useful tools • learning security</span>
+          <span class="status"><span class="dot"></span> Available for collaboration</span>
+        </div>
+
+        <h1>
+          Hi, I’m <span class="grad">vazor</span> 👋
+        </h1>
+
+        <p class="lead">
+          Python developer focused on <b>backend</b>, <b>automation</b>, and <b>security tooling</b>.
+          I like building fast web services, clean CLIs, and practical tools that save time.
+        </p>
+
+        <div class="hero-cta">
+          <a class="btn primary" href="#projects"><i class="fa-solid fa-rocket"></i> View projects</a>
+          <a class="btn" href="#contact"><i class="fa-solid fa-paper-plane"></i> Contact</a>
+          <a class="btn" href="https://vazor-code.github.io/" target="_blank" rel="noopener"><i class="fa-solid fa-globe"></i> Website</a>
+        </div>
+
+        <div class="meta-row">
+          <span class="pill"><i class="fa-solid fa-location-dot"></i> Russia <span class="mono">timezone-friendly</span></span>
+          <span class="pill"><i class="fa-solid fa-shield-halved"></i> Ethical hacking <span class="mono">newbie</span></span>
+          <span class="pill"><i class="fa-solid fa-gears"></i> Automation <span class="mono">always</span></span>
+        </div>
+      </section>
+
+      <aside class="card hero-right reveal">
+        <div class="terminal">
+          <div class="terminal-head">
+            <div class="dots" aria-hidden="true">
+              <span class="r"></span><span class="y"></span><span class="g"></span>
+            </div>
+            <div class="term-title">vazor/profile.py</div>
+          </div>
+          <div class="terminal-body" role="textbox" aria-label="Code preview">
+            <div><span class="cm"># quick summary</span></div>
+            <div><span class="k">class</span> <span class="fn">Developer</span>:</div>
+            <div>&nbsp;&nbsp;<span class="k">def</span> <span class="fn">__init__</span>(self):</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;self.name = <span class="s">"vazor"</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;self.stack = [<span class="s">"Python"</span>, <span class="s">"FastAPI"</span>, <span class="s">"Docker"</span>]</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;self.focus = <span class="s">"backend • automation • security tools"</span></div>
+            <div></div>
+            <div><span class="k">def</span> <span class="fn">motto</span>():</div>
+            <div>&nbsp;&nbsp;<span class="k">return</span> <span class="s">"Automate everything — keep it clean."</span></div>
+            <div></div>
+            <div><span class="cm"># run</span></div>
+            <div><span class="k">print</span>(motto())<span class="cursor" aria-hidden="true"></span></div>
+          </div>
+        </div>
+
+        <div style="margin-top:14px" class="grid">
+          <div class="mini span-6">
+            <h3><i class="fa-solid fa-bolt" style="color:var(--accent3)"></i> Fast delivery</h3>
+            <p>Clear specs → clean implementation → reliable result.</p>
+          </div>
+          <div class="mini span-6">
+            <h3><i class="fa-solid fa-layer-group" style="color:var(--accent2)"></i> Practical systems</h3>
+            <p>From scripts to services — automation that actually helps.</p>
+          </div>
+          <div class="mini span-12">
+            <h3><i class="fa-solid fa-lock" style="color:var(--warn)"></i> Security mindset</h3>
+            <p>Prefer safe defaults, scanning, redaction, and predictable workflows.</p>
+          </div>
+        </div>
+      </aside>
     </div>
 
-    <nav class="glass-nav">
-        <div class="nav-container">
-            <div class="nav-logo">vazor<span>.py</span></div>
-            <ul class="nav-links">
-                <li><a href="#about">Обо мне</a></li>
-                <li><a href="#skills">Стек</a></li>
-                <li><a href="#projects">Проекты</a></li>
-                <li><a href="#contact" class="btn-primary">Связаться</a></li>
-            </ul>
-        </div>
-    </nav>
+    <!-- ABOUT -->
+    <section id="about" class="reveal">
+      <div class="section-title">
+        <h2>About</h2>
+        <p>01 • who I am</p>
+      </div>
 
-    <div class="container">
-        
-        <div class="ascii-container fade-in">
-            <pre class="ascii-art">
-  _    _    __    ____  _____  ____  
- ( \  / )  /__\  (_    )(  _  )(  _ \ 
-  \ \/ /  /(__)\  / /_   )(_)(  )   / 
-   \__/  (__)(__)(____) (_____)(_)\_) 
-            </pre>
-            <div class="terminal-loader">
-                <span class="command">System.initialize()</span>
-                <span class="cursor">|</span>
-            </div>
+      <div class="grid">
+        <div class="card span-8" style="padding:20px">
+          <p class="lead" style="margin:0">
+            I’m a developer who enjoys turning ideas into robust software: APIs, bots, CLIs, and automation.
+            Recently I’ve been building security-related tooling and experimenting with OSINT and scanning systems.
+          </p>
+
+          <div class="tags" aria-label="Highlights">
+            <span class="tag">Backend engineering</span>
+            <span class="tag">Automation</span>
+            <span class="tag">CLI tools</span>
+            <span class="tag">Web services</span>
+            <span class="tag">Security tooling</span>
+          </div>
         </div>
 
-        <section class="hero-section" id="about">
-            <div class="hero-grid">
-                <div class="hero-main-content">
-                    <div class="badge animate-pop">🚀 Available for work</div>
-                    <h1 class="hero-title">
-                        Привет, я <span class="gradient-text">vazor</span>
-                        <span class="wave">👋</span>
-                    </h1>
-                    <h2 class="hero-subtitle">Python Developer & Архитектор Автоматизаций</h2>
-                    <p class="hero-description">
-                        Я превращаю сложные идеи в элегантный код. С 7 лет я болен технологиями, 
-                        сейчас я строю масштабируемые системы на <strong>Python</strong>, 
-                        экспериментирую с AI и создаю инструменты, которые экономят время.
-                    </p>
-                    <div class="hero-actions">
-                        <a href="#projects" class="btn-primary">Смотреть проекты</a>
-                        <a href="https://github.com/vazor-code" class="btn-secondary" target="_blank">
-                            <i class="fab fa-github"></i> GitHub
-                        </a>
-                    </div>
-                </div>
+        <div class="card span-4" style="padding:20px">
+          <h3 style="margin:0 0 10px">Quick links</h3>
+          <div class="grid" style="grid-template-columns:1fr; gap:10px">
+            <a class="btn" href="https://github.com/vazor-code" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub profile</a>
+            <a class="btn" href="https://steamcommunity.com/id/vazor_code/" target="_blank" rel="noopener"><i class="fa-brands fa-steam"></i> Steam</a>
+            <a class="btn" href="https://guns.lol/vazor_code" target="_blank" rel="noopener"><i class="fa-solid fa-link"></i> guns.lol</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
-                <div class="code-window glass">
-                    <div class="window-header">
-                        <div class="dots">
-                            <span class="dot red"></span>
-                            <span class="dot yellow"></span>
-                            <span class="dot green"></span>
-                        </div>
-                        <div class="file-name">vazor_dev.py</div>
-                    </div>
-                    <div class="window-body">
-                        <pre><code class="language-python">
-<span class="k">class</span> <span class="nc">Developer</span>:
-    <span class="k">def</span> <span class="nf">__init__</span>(<span class="bp">self</span>):
-        <span class="bp">self</span>.name = <span class="s">"vazor"</span>
-        <span class="bp">self</span>.role = <span class="s">"Backend Engineer"</span>
-        <span class="bp">self</span>.tools = [<span class="s">"Python"</span>, <span class="s">"Docker"</span>, <span class="s">"FastAPI"</span>]
+    <!-- SKILLS -->
+    <section id="skills" class="reveal">
+      <div class="section-title">
+        <h2>Stack</h2>
+        <p>02 • what I use</p>
+      </div>
 
-    <span class="k">def</span> <span class="nf">get_motto</span>(<span class="bp">self</span>):
-        <span class="k">return</span> <span class="s">"Automate everything"</span>
-
-<span class="c1"># Инициализация объекта</span>
-me = Developer()
-<span class="k">print</span>(f<span class="s">"Status: {me.get_motto()}"</span>)
-                        </code></pre>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <div class="stats-bar glass animate-in">
-            <div class="stat-item">
-                <span class="stat-num">3+</span>
-                <span class="stat-text">Года в Python</span>
-            </div>
-            <div class="divider"></div>
-            <div class="stat-item">
-                <span class="stat-num">3+</span>
-                <span class="stat-text">Завершенных проектов</span>
-            </div>
-            <div class="divider"></div>
-            <div class="stat-item">
-                <span class="stat-num">100%</span>
-                <span class="stat-text">Self-taught</span>
-            </div>
+      <div class="grid">
+        <div class="card span-4" style="padding:20px">
+          <h3 style="margin:0 0 10px"><i class="fa-solid fa-code" style="color:var(--accent3)"></i> Core</h3>
+          <div class="tags">
+            <span class="tag">Python</span>
+            <span class="tag">Asyncio</span>
+            <span class="tag">Typing</span>
+            <span class="tag">SQL</span>
+            <span class="tag">Linux</span>
+          </div>
         </div>
 
-        <section class="section" id="skills">
-            <h2 class="section-heading"><span class="accent-color">01.</span> Мой Стек</h2>
-            <div class="skills-container">
-                <div class="skill-category-card glass">
-                    <div class="category-icon"><i class="fas fa-code"></i></div>
-                    <h3>Core</h3>
-                    <ul class="skill-list">
-                        <li>Python (Asyncio, Typing)</li>
-                        <li>JavaScript</li>
-                        <li>SQL & NoSQL</li>
-                        <li>Algorithms & Patterns</li>
-                    </ul>
-                </div>
-                <div class="skill-category-card glass">
-                    <div class="category-icon"><i class="fas fa-server"></i></div>
-                    <h3>Backend</h3>
-                    <ul class="skill-list">
-                        <li>Django / DRF</li>
-                        <li>FastAPI / Flask</li>
-                        <li>PostgreSQL / Redis</li>
-                    </ul>
-                </div>
-                <div class="skill-category-card glass">
-                    <div class="category-icon"><i class="fas fa-tools"></i></div>
-                    <h3>DevOps & Tools</h3>
-                    <ul class="skill-list">
-                        <li>Docker & Compose</li>
-                        <li>Linux (Ubuntu/Debian)</li>
-                        <li>Git / GitHub Actions</li>
-                    </ul>
-                </div>
+        <div class="card span-4" style="padding:20px">
+          <h3 style="margin:0 0 10px"><i class="fa-solid fa-server" style="color:var(--accent)"></i> Backend</h3>
+          <div class="tags">
+            <span class="tag">FastAPI</span>
+            <span class="tag">Flask</span>
+            <span class="tag">Django</span>
+            <span class="tag">REST</span>
+            <span class="tag">Webhooks</span>
+          </div>
+        </div>
+
+        <div class="card span-4" style="padding:20px">
+          <h3 style="margin:0 0 10px"><i class="fa-solid fa-gears" style="color:var(--accent2)"></i> DevOps & Tools</h3>
+          <div class="tags">
+            <span class="tag">Docker</span>
+            <span class="tag">GitHub Actions</span>
+            <span class="tag">CI/CD</span>
+            <span class="tag">PostgreSQL</span>
+            <span class="tag">Redis</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="reveal">
+      <div class="section-title">
+        <h2>Projects</h2>
+        <p>03 • featured + latest</p>
+      </div>
+
+      <div class="grid" style="margin-bottom:14px">
+        <!-- Featured (static) -->
+        <div class="project span-4">
+          <div class="project-top">
+            <div>
+              <h3>CyberFind</h3>
+              <div class="muted2 mono">OSINT • reconnaissance • 200+ platforms</div>
             </div>
-        </section>
+            <span class="chip" title="Featured"><i class="fa-solid fa-star"></i> Featured</span>
+          </div>
+          <p>Next-gen OSINT reconnaissance tool for investigators and pentesters. Fast username checks across many platforms.</p>
+          <div class="meta">
+            <span><i class="fa-brands fa-python"></i> Python</span>
+            <a href="https://github.com/vazor-code/cyber-find" target="_blank" rel="noopener">
+              Open <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+          </div>
+        </div>
 
-        <section class="section">
-            <h2 class="section-heading"><span class="accent-color">02.</span> Путь в IT</h2>
-            <div class="timeline glass">
-                <div class="timeline-item">
-                    <div class="time">2014</div>
-                    <div class="content">
-                        <h4>Первый контакт</h4>
-                        <p>Начал изучать устройство ПК и базовую логику в возрасте 7 лет.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="time">2019</div>
-                    <div class="content">
-                        <h4>Знакомство с Python</h4>
-                        <p>Написал первую программу на Python. Понял, что это любовь.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="time">Сегодня</div>
-                    <div class="content">
-                        <h4>Full-stack & DevOps</h4>
-                        <p>Разрабатываю сложные веб-сервисы и автоматизирую деплой через Docker.</p>
-                    </div>
-                </div>
+        <div class="project span-4">
+          <div class="project-top">
+            <div>
+              <h3>UptimeMonitor</h3>
+              <div class="muted2 mono">monitoring • alerts • telegram</div>
             </div>
-        </section>
+            <span class="chip" title="Featured"><i class="fa-solid fa-star"></i> Featured</span>
+          </div>
+          <p>Monitor any website’s uptime and get instant notifications via Telegram when it goes down.</p>
+          <div class="meta">
+            <span><i class="fa-solid fa-bell"></i> Alerts</span>
+            <a href="https://github.com/vazor-code/UptimeMonitor" target="_blank" rel="noopener">
+              Open <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+          </div>
+        </div>
 
-        <section class="section" id="projects">
-            <h2 class="section-heading"><span class="accent-color">03.</span> Проекты</h2>
-            <div class="projects-grid" id="projectsGrid">
-                <!-- Проекты будут вставлены сюда -->
+        <div class="project span-4">
+          <div class="project-top">
+            <div>
+              <h3>PassVault</h3>
+              <div class="muted2 mono">encryption • vault • cli</div>
             </div>
-        </section>
+            <span class="chip" title="Featured"><i class="fa-solid fa-star"></i> Featured</span>
+          </div>
+          <p>A simple encrypted password vault built with Python — store, search, delete entries and generate strong passwords.</p>
+          <div class="meta">
+            <span><i class="fa-solid fa-lock"></i> Encrypted</span>
+            <a href="https://github.com/vazor-code/PassVault" target="_blank" rel="noopener">
+              Open <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+          </div>
+        </div>
+      </div>
 
-        <footer class="main-footer glass" id="contact">
-            <div class="footer-grid">
-                <div class="footer-info">
-                    <div class="footer-logo">vazor</div>
-                    <p>Всегда открыт к новым вызовам и интересным архитектурным задачам.</p>
-                </div>
-                <div class="footer-links-group">
-                    <h4>Контакты</h4>
-                    <a href="mailto:vazorcode@gmail.com"><i class="fas fa-envelope"></i> vazorcode@gmail.com</a>
-                    <a href="https://t.me/vazor_code_tg" target="_blank"><i class="fab fa-telegram"></i> Telegram</a>
-                </div>
-                <div class="footer-social">
-                    <h4>Соцсети</h4>
-                    <div class="social-icons">
-                        <a href="https://github.com/vazor-code" target="_blank"><i class="fab fa-github"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 vazor. Built with 🐍 and <span class="heart">❤️</span></p>
-                <p class="footer-status">Always curious, always coding</p>
-            </div>
-        </footer>
+      <!-- Latest repos (auto) -->
+      <div class="card" style="padding:20px">
+        <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+          <div>
+            <h3 style="margin:0">Latest activity</h3>
+            <div class="muted2 mono">auto-loaded from GitHub (updated repos)</div>
+          </div>
+          <div class="muted2 mono" id="repoStatus">Loading…</div>
+        </div>
 
-    </div>
+        <div class="grid" style="margin-top:14px" id="reposGrid" aria-live="polite"></div>
+      </div>
+    </section>
 
-    <script>
-        const projects = [
-            {
-                title: "UptimeMonitor",
-                desc: "Бот для мониторинга доступности серверов в реальном времени.",
-                tech: ["Python", "Flask", "Requests"],
-                link: "https://github.com/vazor-code/UptimeMonitor"
-            },
-            {
-                title: "PassVault",
-                desc: "Безопасный менеджер паролей с шифрованием AES-256.",
-                tech: ["Python", "Cryptography", "SQLite"],
-                link: "https://github.com/vazor-code/PassVault"
-            },
-            {
-                title: "VPScope",
-                desc: "CLI инструмент для анализа статистики Linux серверов.",
-                tech: ["Python", "Psutil", "Rich"],
-                link: "https://github.com/vazor-code/VPScope"
-            }
-        ];
+    <!-- CONTACT -->
+    <section id="contact" class="reveal">
+      <div class="section-title">
+        <h2>Contact</h2>
+        <p>04 • let’s build</p>
+      </div>
 
-        // Генерация проектов
-        document.addEventListener('DOMContentLoaded', function() {
-            const projectsGrid = document.getElementById('projectsGrid');
-            
-            projects.forEach(project => {
-                const projectCard = document.createElement('div');
-                projectCard.className = 'project-card glass';
-                
-                projectCard.innerHTML = `
-                    <div class="project-image">
-                        <div class="image-placeholder">${project.title}</div>
-                    </div>
-                    <div class="project-info">
-                        <h3>${project.title}</h3>
-                        <p>${project.desc}</p>
-                        <div class="project-tags">
-                            ${project.tech.map(tech => `<span>${tech}</span>`).join('')}
-                        </div>
-                        <a href="${project.link}" target="_blank" class="project-link">
-                            Подробнее <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                `;
-                
-                projectsGrid.appendChild(projectCard);
-            });
+      <div class="grid">
+        <div class="card span-8" style="padding:20px">
+          <h3 style="margin:0 0 10px">Want to collaborate?</h3>
+          <p class="lead" style="margin:0">
+            If you need a bot, API, automation, a CLI tool, or a security-focused utility — feel free to reach out.
+          </p>
 
-            // Анимация появления элементов при скролле
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
+          <div class="hero-cta" style="margin-top:16px">
+            <!-- Replace email/telegram if needed -->
+            <a class="btn primary" href="mailto:vazorcode@gmail.com"><i class="fa-solid fa-envelope"></i> Email me</a>
+            <a class="btn" href="https://t.me/vazor_code_tg" target="_blank" rel="noopener"><i class="fa-brands fa-telegram"></i> Telegram</a>
+          </div>
 
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, observerOptions);
+          <div class="tags" style="margin-top:14px">
+            <span class="tag">Open to learning</span>
+            <span class="tag">Clean code</span>
+            <span class="tag">Fast iteration</span>
+          </div>
+        </div>
 
-            // Наблюдаем за элементами для анимации
-            document.querySelectorAll('.skill-category-card, .timeline-item, .project-card').forEach(el => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(20px)';
-                el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                observer.observe(el);
-            });
+        <div class="card span-4" style="padding:20px">
+          <h3 style="margin:0 0 10px">Current focus</h3>
+          <div class="mini" style="margin-bottom:10px">
+            <h3 style="margin:0 0 6px">Security tooling</h3>
+            <p>Scanners, automation, safer developer workflows.</p>
+          </div>
+          <div class="mini">
+            <h3 style="margin:0 0 6px">Web services</h3>
+            <p>Fast APIs, monitoring, bots, and integrations.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-            // Плавная прокрутка для навигации
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    const targetId = this.getAttribute('href');
-                    if (targetId === '#') return;
-                    
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 80,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
-        });
+    <footer>
+      <div class="foot">
+        <div class="muted2 mono">© <span id="year"></span> vazor • built with Python energy 🐍</div>
+        <div class="social" aria-label="Social links">
+          <a href="https://github.com/vazor-code" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+          <a href="https://t.me/vazor_code_tg" target="_blank" rel="noopener" aria-label="Telegram"><i class="fa-brands fa-telegram"></i></a>
+          <a href="https://vazor-code.github.io/" target="_blank" rel="noopener" aria-label="Website"><i class="fa-solid fa-globe"></i></a>
+        </div>
+      </div>
+    </footer>
+  </main>
 
-        // Анимация курсора в терминале
-        const cursor = document.querySelector('.cursor');
-        if (cursor) {
-            setInterval(() => {
-                cursor.style.opacity = cursor.style.opacity === '0' ? '1' : '0';
-            }, 500);
+  <script>
+    // ====== CONFIG ======
+    const USERNAME = "vazor-code";
+    const MAX_REPOS = 8;
+
+    // ====== THEME ======
+    const root = document.documentElement;
+    const themeBtn = document.getElementById("themeBtn");
+    const saved = localStorage.getItem("theme");
+    const preferDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+    function setTheme(t){
+      root.setAttribute("data-theme", t);
+      localStorage.setItem("theme", t);
+      themeBtn.innerHTML = t === "light"
+        ? '<i class="fa-solid fa-moon"></i>'
+        : '<i class="fa-solid fa-sun"></i>';
+      themeBtn.title = t === "light" ? "Switch to dark" : "Switch to light";
+    }
+    setTheme(saved || (preferDark ? "dark" : "light"));
+    themeBtn.addEventListener("click", () => {
+      const current = root.getAttribute("data-theme");
+      setTheme(current === "light" ? "dark" : "light");
+    });
+
+    // ====== MOBILE MENU ======
+    const burger = document.getElementById("burger");
+    const mobile = document.getElementById("mobile");
+    burger?.addEventListener("click", () => mobile.classList.toggle("show"));
+    mobile?.querySelectorAll("a").forEach(a => a.addEventListener("click", () => mobile.classList.remove("show")));
+
+    // ====== REVEAL ======
+    const revealEls = document.querySelectorAll(".reveal");
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if(e.isIntersecting){
+          e.target.classList.add("show");
+          io.unobserve(e.target);
         }
-    </script>
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => io.observe(el));
+
+    // ====== YEAR ======
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // ====== LOAD REPOS ======
+    const reposGrid = document.getElementById("reposGrid");
+    const repoStatus = document.getElementById("repoStatus");
+
+    function esc(s){
+      return (s ?? "").replace(/[&<>"']/g, m => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[m]));
+    }
+
+    function repoCard(r){
+      const lang = r.language ? `• ${esc(r.language)}` : "";
+      const desc = r.description ? esc(r.description) : "No description provided.";
+      const stars = r.stargazers_count ?? 0;
+      const forks = r.forks_count ?? 0;
+
+      return `
+        <div class="project span-4">
+          <div class="project-top">
+            <div>
+              <h3>${esc(r.name)}</h3>
+              <div class="muted2 mono">${new Date(r.pushed_at).toLocaleDateString()} ${lang}</div>
+            </div>
+            <span class="chip" title="Stars"><i class="fa-solid fa-star"></i> ${stars}</span>
+          </div>
+          <p>${desc}</p>
+          <div class="meta">
+            <span><i class="fa-solid fa-code-fork"></i> ${forks}</span>
+            <a href="${esc(r.html_url)}" target="_blank" rel="noopener">
+              Open <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+          </div>
+        </div>
+      `;
+    }
+
+    async function loadRepos(){
+      try{
+        repoStatus.textContent = "Loading…";
+        const url = `https://api.github.com/users/${USERNAME}/repos?per_page=100&sort=pushed`;
+        const res = await fetch(url, { headers: { "Accept": "application/vnd.github+json" } });
+        if(!res.ok) throw new Error("GitHub API error");
+        const data = await res.json();
+
+        const filtered = data
+          .filter(r => !r.fork)
+          .sort((a,b) => new Date(b.pushed_at) - new Date(a.pushed_at))
+          .slice(0, MAX_REPOS);
+
+        reposGrid.innerHTML = filtered.map(repoCard).join("");
+        repoStatus.textContent = `Showing ${filtered.length} updated repos`;
+      }catch(e){
+        repoStatus.textContent = "Couldn’t load repos (API limit/offline)";
+        reposGrid.innerHTML = `
+          <div class="mini span-12">
+            <h3 style="margin:0 0 6px">Tip</h3>
+            <p>GitHub API can be rate-limited for anonymous requests. The featured projects above still work perfectly.</p>
+          </div>
+        `;
+      }
+    }
+    loadRepos();
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener("click", (e) => {
+        const id = a.getAttribute("href");
+        if(!id || id === "#") return;
+        const el = document.querySelector(id);
+        if(el){
+          e.preventDefault();
+          window.scrollTo({ top: el.offsetTop - 84, behavior: "smooth" });
+        }
+      });
+    });
+  </script>
 </body>
 </html>
