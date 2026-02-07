@@ -20,24 +20,25 @@
 
   <style>
     :root{
-      --bg: #070A13;
-      --bg2:#0B1022;
-      --card: rgba(255,255,255,.06);
-      --card2: rgba(255,255,255,.04);
-      --border: rgba(255,255,255,.10);
-      --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.70);
-      --muted2: rgba(255,255,255,.55);
-      --shadow: rgba(0,0,0,.40);
+      --bg: #0A0E1A;
+      --bg2:#0E1428;
+      --card: rgba(255,255,255,.05);
+      --card2: rgba(255,255,255,.03);
+      --border: rgba(255,255,255,.08);
+      --text: rgba(255,255,255,.95);
+      --muted: rgba(255,255,255,.68);
+      --muted2: rgba(255,255,255,.52);
+      --shadow: rgba(0,0,0,.50);
 
       --accent: #7C3AED;       /* violet */
-      --accent2:#22C55E;       /* green  */
-      --accent3:#38BDF8;       /* sky    */
+      --accent2:#10B981;       /* emerald */
+      --accent3:#06B6D4;       /* cyan    */
+      --accent4:#EC4899;       /* pink    */
       --warn:#F59E0B;
 
-      --radius: 18px;
-      --radius2: 26px;
-      --max: 1120px;
+      --radius: 16px;
+      --radius2: 24px;
+      --max: 1200px;
 
       --mono: "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       --sans: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -45,15 +46,15 @@
 
     /* Light theme */
     [data-theme="light"]{
-      --bg: #F7F8FF;
+      --bg: #F5F7FF;
       --bg2:#FFFFFF;
-      --card: rgba(0,0,0,.04);
-      --card2: rgba(0,0,0,.03);
-      --border: rgba(0,0,0,.10);
-      --text: rgba(0,0,0,.88);
-      --muted: rgba(0,0,0,.65);
-      --muted2: rgba(0,0,0,.50);
-      --shadow: rgba(0,0,0,.12);
+      --card: rgba(0,0,0,.03);
+      --card2: rgba(0,0,0,.02);
+      --border: rgba(0,0,0,.08);
+      --text: rgba(0,0,0,.90);
+      --muted: rgba(0,0,0,.62);
+      --muted2: rgba(0,0,0,.48);
+      --shadow: rgba(0,0,0,.10);
     }
 
     *{box-sizing:border-box}
@@ -62,10 +63,8 @@
       margin:0;
       font-family:var(--sans);
       color:var(--text);
-      background: radial-gradient(1200px 700px at 15% 10%, rgba(124,58,237,.20), transparent 55%),
-                  radial-gradient(900px 600px at 85% 20%, rgba(56,189,248,.14), transparent 55%),
-                  radial-gradient(900px 700px at 35% 95%, rgba(34,197,94,.13), transparent 60%),
-                  linear-gradient(180deg, var(--bg), var(--bg2));
+      background: linear-gradient(180deg, #0A0E1A 0%, #0E1428 50%, #1a1a2e 100%);
+      background-attachment: fixed;
       overflow-x:hidden;
     }
 
@@ -77,54 +76,47 @@
     .chip{
       display:inline-flex; align-items:center; gap:10px;
       padding:9px 14px; border-radius:999px;
-      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+      background: rgba(255,255,255,.08);
       border:1px solid var(--border);
-      box-shadow: 0 12px 30px var(--shadow);
-      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 20px var(--shadow);
       font-weight:600;
       letter-spacing:.2px;
     }
     .chip i{opacity:.9}
 
-    /* Aurora animated blob layer (subtle) */
+    /* Aurora animated blob layer */
     .aurora{
       position:fixed; inset:-20%;
-      z-index:-2;
-      filter: blur(40px);
-      opacity:.75;
+      z-index:-1;
+      filter: blur(80px);
+      opacity:.5;
       pointer-events:none;
     }
-    .aurora::before,
+    .aurora::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(900px 700px at 15% 25%, rgba(124,58,237,.35), transparent 60%),
+        radial-gradient(1000px 800px at 85% 20%, rgba(6,182,212,.25), transparent 62%),
+        radial-gradient(850px 750px at 50% 85%, rgba(16,185,129,.20), transparent 62%);
+      will-change: transform;
+    }
     .aurora::after{
       content:"";
       position:absolute; inset:0;
       background:
-        radial-gradient(600px 500px at 20% 30%, rgba(124,58,237,.35), transparent 60%),
-        radial-gradient(700px 600px at 80% 20%, rgba(56,189,248,.28), transparent 62%),
-        radial-gradient(650px 550px at 55% 85%, rgba(34,197,94,.25), transparent 62%);
-      transform: translate3d(0,0,0);
-      animation: floaty 16s ease-in-out infinite;
-    }
-    .aurora::after{
-      opacity:.75;
-      animation-duration: 22s;
-      animation-direction: reverse;
-    }
-    @keyframes floaty{
-      0%,100%{ transform: translate(0,0) scale(1); }
-      25%{ transform: translate(3%, -2%) scale(1.02); }
-      50%{ transform: translate(-2%, 3%) scale(1.04); }
-      75%{ transform: translate(2%, 2%) scale(1.01); }
+        radial-gradient(800px 600px at 20% 30%, rgba(236,72,153,.25), transparent 60%);
+      will-change: transform;
     }
 
     /* Header / Nav */
     header{
       position:sticky; top:0; z-index:50;
-      background: rgba(10,14,28,.55);
-      backdrop-filter: blur(14px);
+      background: rgba(10,14,28,.60);
+      backdrop-filter: blur(8px);
       border-bottom:1px solid var(--border);
     }
-    [data-theme="light"] header{ background: rgba(255,255,255,.70); }
+    [data-theme="light"] header{ background: rgba(255,255,255,.65); }
     .nav{
       display:flex; align-items:center; justify-content:space-between;
       padding:14px 0;
@@ -137,7 +129,7 @@
     .brand-badge{
       width:40px; height:40px; border-radius:14px;
       display:grid; place-items:center;
-      background: linear-gradient(135deg, rgba(124,58,237,.25), rgba(56,189,248,.18));
+      background: linear-gradient(135deg, rgba(124,58,237,.30), rgba(6,182,212,.20));
       border:1px solid var(--border);
       box-shadow: 0 10px 30px var(--shadow);
     }
@@ -146,7 +138,7 @@
       display:flex; flex-direction:column; line-height:1.05;
     }
     .brand-title strong{
-      font-size:14px; letter-spacing:.3px;
+      font-size:14px; letter-spacing:.3px; font-weight:700;
     }
     .brand-title span{
       font-size:12px; color:var(--muted2); font-family:var(--mono);
@@ -166,7 +158,6 @@
     .nav-links a:hover{
       color:var(--text);
       background: rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.08);
     }
 
     .nav-actions{display:flex; align-items:center; gap:10px}
@@ -176,7 +167,7 @@
       padding:11px 14px;
       border-radius:14px;
       border:1px solid var(--border);
-      background: rgba(255,255,255,.05);
+      background: rgba(255,255,255,.04);
       color:var(--text);
       text-decoration:none;
       font-weight:700;
@@ -184,13 +175,18 @@
       transition:.2s ease;
       user-select:none;
     }
-    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.08); }
+    .btn:hover{ 
+      transform: translateY(-1px); 
+      background: rgba(255,255,255,.08);
+    }
     .btn.primary{
       border:none;
-      background: linear-gradient(135deg, var(--accent), rgba(56,189,248,.55));
-      box-shadow: 0 12px 32px rgba(124,58,237,.25);
+      background: linear-gradient(135deg, var(--accent), var(--accent3));
+      box-shadow: 0 12px 32px rgba(124,58,237,.28);
     }
-    .btn.primary:hover{ box-shadow: 0 16px 40px rgba(124,58,237,.35); }
+    .btn.primary:hover{ 
+      box-shadow: 0 16px 40px rgba(124,58,237,.38);
+    }
     .icon-btn{
       width:44px; height:44px; padding:0;
       border-radius:14px;
@@ -229,8 +225,10 @@
     }
     .section-title h2{
       margin:0;
-      font-size:26px;
-      letter-spacing:-.2px;
+      font-size:28px;
+      letter-spacing:-.3px;
+      font-weight:800;
+      animation: sectionFade 0.6s ease-out;
     }
     .section-title p{
       margin:0;
@@ -273,15 +271,22 @@
     .dot{
       width:10px; height:10px; border-radius:99px;
       background: var(--accent2);
-      box-shadow: 0 0 0 6px rgba(34,197,94,.15);
+      box-shadow: 0 0 0 6px rgba(16,185,129,.20);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse{
+      0%, 100%{ opacity: 1; }
+      50%{ opacity: .6; }
     }
     h1{
       margin:10px 0 10px;
-      font-size:44px;
-      line-height:1.03;
-      letter-spacing:-1px;
+      font-size:48px;
+      line-height:1.02;
+      letter-spacing:-1.2px;
+      font-weight:900;
+      animation: titleSlide 0.8s ease-out;
     }
-    @media (max-width: 520px){ h1{font-size:36px} }
+    @media (max-width: 520px){ h1{font-size:38px} }
 
     .grad{
       background: linear-gradient(135deg, var(--accent), var(--accent3));
@@ -321,7 +326,7 @@
       border-radius: 18px;
       overflow:hidden;
       border:1px solid var(--border);
-      background: rgba(0,0,0,.22);
+      background: rgba(0,0,0,.25);
     }
     [data-theme="light"] .terminal{ background: rgba(255,255,255,.45); }
     .terminal-head{
@@ -334,7 +339,7 @@
     .dots span{width:10px;height:10px;border-radius:99px; display:inline-block}
     .dots .r{background:#ef4444}
     .dots .y{background:#f59e0b}
-    .dots .g{background:#22c55e}
+    .dots .g{background:#10b981}
     .term-title{font-family:var(--mono); color:var(--muted2); font-size:12px}
     .terminal-body{
       padding:14px;
@@ -378,8 +383,36 @@
       border:1px solid var(--border);
       background: rgba(255,255,255,.04);
     }
-    .mini h3{margin:0 0 8px; font-size:16px}
+    .mini h3{margin:0 0 8px; font-size:16px; font-weight:700}
     .mini p{margin:0; color:var(--muted); font-size:14px}
+
+    /* Stats */
+    .stat-box{
+      padding:14px;
+      border-radius: var(--radius);
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      text-align:center;
+    }
+    .stat-value{
+      font-size:24px;
+      font-weight:900;
+      background: linear-gradient(135deg, var(--accent), var(--accent3));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+    .stat-label{
+      font-size:12px;
+      color:var(--muted2);
+      font-family:var(--mono);
+      font-weight:600;
+      margin-top:4px;
+    }
+    @keyframes statPulse{
+      0%, 100%{ transform: scale(1); }
+      50%{ transform: scale(1.05); }
+    }
 
     /* Skills */
     .tags{display:flex; gap:8px; flex-wrap:wrap; margin-top:12px}
@@ -391,6 +424,171 @@
       border:1px solid var(--border);
       background: rgba(255,255,255,.04);
       color:var(--muted);
+      font-weight:600;
+    }
+
+    /* Skills List */
+    .skills-list{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      margin-top:12px;
+    }
+    .skill-item{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .skill-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      font-size:13px;
+      font-weight:700;
+    }
+    .skill-percent{
+      color:var(--accent3);
+      font-family:var(--mono);
+      font-size:11px;
+    }
+    .skill-bar{
+      height:6px;
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--border);
+      overflow:hidden;
+    }
+    .skill-fill{
+      height:100%;
+      background:linear-gradient(90deg, var(--accent), var(--accent3));
+      border-radius:999px;
+      animation: fillWidth 1.2s ease-out forwards;
+    }
+    @keyframes fillWidth{
+      from{ width:0%; }
+    }
+
+    /* Timeline */
+    .timeline{
+      margin-top:16px;
+      position:relative;
+      padding-left:30px;
+    }
+    .timeline::before{
+      content:"";
+      position:absolute;
+      left:8px;
+      top:0;
+      bottom:0;
+      width:2px;
+      background:linear-gradient(180deg, var(--accent3), transparent);
+    }
+    .timeline-item{
+      margin-bottom:24px;
+      position:relative;
+      animation: timelineSlide 0.6s ease-out;
+    }
+    .timeline-item-last{
+      margin-bottom:0;
+    }
+    .timeline-marker{
+      position:absolute;
+      left:-24px;
+      top:4px;
+      width:16px;
+      height:16px;
+      border-radius:50%;
+      background:var(--accent3);
+      border:3px solid var(--bg);
+      box-shadow: 0 0 0 2px var(--accent3);
+    }
+    .timeline-content h4{
+      margin:0 0 4px;
+      font-size:14px;
+      font-weight:800;
+      color:var(--text);
+    }
+    .timeline-content p{
+      margin:8px 0 0;
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.5;
+    }
+    .timeline-date{
+      font-family:var(--mono);
+      font-size:11px;
+      color:var(--muted2);
+      font-weight:600;
+    }
+    @keyframes timelineSlide{
+      from{
+        opacity:0;
+        transform:translateX(-20px);
+      }
+      to{
+        opacity:1;
+        transform:translateX(0);
+      }
+    }
+
+    /* Quick Links */
+    .quick-links{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .quick-link{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      padding:14px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      text-decoration:none;
+      color:var(--text);
+      transition:.2s ease;
+    }
+    .quick-link:hover{
+      background:rgba(255,255,255,.06);
+      border-color:var(--accent3);
+      transform:translateX(8px);
+    }
+    .quick-link i:first-child{
+      font-size:20px;
+      color:var(--accent3);
+      min-width:24px;
+    }
+    .quick-link > div{
+      flex:1;
+    }
+    .ql-title{
+      font-weight:700;
+      font-size:14px;
+      color:var(--text);
+    }
+    .ql-desc{
+      font-size:12px;
+      color:var(--muted2);
+      margin-top:2px;
+    }
+    .quick-link i:last-child{
+      color:var(--muted2);
+      transition:.3s ease;
+    }
+    .quick-link:hover i:last-child{
+      transform:translateX(4px);
+      color:var(--accent3);
+    }
+    @keyframes quickLinkSlide{
+      from{
+        opacity:0;
+        transform:translateX(-15px);
+      }
+      to{
+        opacity:1;
+        transform:translateX(0);
+      }
     }
 
     /* Projects */
@@ -401,10 +599,14 @@
       background: rgba(255,255,255,.04);
       display:flex;
       flex-direction:column;
-      min-height: 170px;
-      transition: .18s ease;
+      min-height: 180px;
+      transition: .2s ease;
     }
-    .project:hover{ transform: translateY(-4px); background: rgba(255,255,255,.06); }
+    .project:hover{ 
+      transform: translateY(-2px); 
+      background: rgba(255,255,255,.06); 
+      border-color: var(--accent3);
+    }
     .project-top{
       display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
       margin-bottom:10px;
@@ -413,6 +615,7 @@
       margin:0;
       font-size:16px;
       letter-spacing:-.2px;
+      font-weight:800;
     }
     .project p{ margin:0; color:var(--muted); font-size:14px; line-height:1.5; flex:1; }
     .project .meta{
@@ -453,12 +656,76 @@
       border:1px solid var(--border);
       background: rgba(255,255,255,.04);
       text-decoration:none;
+      transition: .2s ease;
     }
     .social a:hover{ background: rgba(255,255,255,.08); transform: translateY(-1px); }
 
     /* Reveal */
     .reveal{ opacity:0; transform: translateY(16px); transition: .7s ease; }
     .reveal.show{ opacity:1; transform: translateY(0); }
+
+    /* All animations */
+    @keyframes titleSlide{
+      from{
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+      }
+      to{
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes sectionFade{
+      from{
+        opacity: 0;
+        transform: translateX(-15px);
+      }
+      to{
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .nav-links a{
+      text-decoration:none;
+      font-weight:600;
+      color:var(--muted);
+      padding:10px 12px;
+      border-radius:12px;
+      transition: .2s ease;
+    }
+
+    .card{
+      border:1px solid var(--border);
+      background: linear-gradient(180deg, var(--card), var(--card2));
+      border-radius: var(--radius2);
+      box-shadow: 0 20px 60px var(--shadow);
+      backdrop-filter: blur(8px);
+      animation: cardFade 0.7s ease-out;
+    }
+
+    @keyframes cardFade{
+      from{
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to{
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .social a{
+      width:44px;height:44px;
+      display:grid; place-items:center;
+      border-radius: 14px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      text-decoration:none;
+      transition: .2s ease;
+    }
+    .social a:hover{ background: rgba(255,255,255,.08); transform: translateY(-1px); }
 
     /* Reduce motion */
     @media (prefers-reduced-motion: reduce){
@@ -478,7 +745,7 @@
           <div class="brand-badge" aria-hidden="true"><i class="fa-solid fa-code"></i></div>
           <div class="brand-title">
             <strong>vazor</strong>
-            <span class="mono">@vazor-code</span>
+            <span class="mono">@code</span>
           </div>
         </a>
 
@@ -518,29 +785,29 @@
     <div class="hero">
       <section class="card hero-left reveal">
         <div class="hero-top">
-          <span class="chip"><i class="fa-solid fa-sparkles"></i> Building useful tools • learning security</span>
-          <span class="status"><span class="dot"></span> Available for collaboration</span>
+          <span class="chip"><i class="fa-solid fa-sparkles"></i> Crafting elegant solutions • building secure tools</span>
+          <span class="status"><span class="dot"></span> Available for work</span>
         </div>
 
         <h1>
-          Hi, I’m <span class="grad">vazor</span> 👋
+          Hi, I'm <span class="grad">vazor</span> 👋
         </h1>
 
         <p class="lead">
-          Python developer focused on <b>backend</b>, <b>automation</b>, and <b>security tooling</b>.
-          I like building fast web services, clean CLIs, and practical tools that save time.
+          Python developer focused on <b>backend systems</b>, <b>security automation</b>, and <b>DevOps tools</b>.
+          I build fast APIs, command-line utilities, and practical tools that solve real problems.
         </p>
 
         <div class="hero-cta">
           <a class="btn primary" href="#projects"><i class="fa-solid fa-rocket"></i> View projects</a>
-          <a class="btn" href="#contact"><i class="fa-solid fa-paper-plane"></i> Contact</a>
-          <a class="btn" href="https://vazor-code.github.io/" target="_blank" rel="noopener"><i class="fa-solid fa-globe"></i> Website</a>
+          <a class="btn" href="#contact"><i class="fa-solid fa-paper-plane"></i> Get in touch</a>
+          <a class="btn" href="https://github.com/vazor-code" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub profile</a>
         </div>
 
         <div class="meta-row">
-          <span class="pill"><i class="fa-solid fa-location-dot"></i> Russia <span class="mono">timezone-friendly</span></span>
-          <span class="pill"><i class="fa-solid fa-shield-halved"></i> Ethical hacking <span class="mono">newbie</span></span>
-          <span class="pill"><i class="fa-solid fa-gears"></i> Automation <span class="mono">always</span></span>
+          <span class="pill"><i class="fa-solid fa-location-dot"></i> Russia <span class="mono">UTC+3</span></span>
+          <span class="pill"><i class="fa-solid fa-shield-halved"></i> Security first <span class="mono">always</span></span>
+          <span class="pill"><i class="fa-solid fa-bolt"></i> Fast delivery <span class="mono">guaranteed</span></span>
         </div>
       </section>
 
@@ -550,36 +817,50 @@
             <div class="dots" aria-hidden="true">
               <span class="r"></span><span class="y"></span><span class="g"></span>
             </div>
-            <div class="term-title">vazor/profile.py</div>
+            <div class="term-title">~/profile.py</div>
           </div>
           <div class="terminal-body" role="textbox" aria-label="Code preview">
-            <div><span class="cm"># quick summary</span></div>
+            <div><span class="cm"># whoami</span></div>
             <div><span class="k">class</span> <span class="fn">Developer</span>:</div>
             <div>&nbsp;&nbsp;<span class="k">def</span> <span class="fn">__init__</span>(self):</div>
             <div>&nbsp;&nbsp;&nbsp;&nbsp;self.name = <span class="s">"vazor"</span></div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;self.stack = [<span class="s">"Python"</span>, <span class="s">"FastAPI"</span>, <span class="s">"Docker"</span>]</div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;self.focus = <span class="s">"backend • automation • security tools"</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;self.langs = [<span class="s">"Python"</span>, <span class="s">"JS"</span>, <span class="s">"SQL"</span>]</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;self.stack = [<span class="s">"FastAPI"</span>, <span class="s">"Docker"</span>, <span class="s">"PostgreSQL"</span>]</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;self.focus = <span class="s">"backend • osint • security"</span></div>
             <div></div>
-            <div><span class="k">def</span> <span class="fn">motto</span>():</div>
-            <div>&nbsp;&nbsp;<span class="k">return</span> <span class="s">"Automate everything — keep it clean."</span></div>
-            <div></div>
-            <div><span class="cm"># run</span></div>
-            <div><span class="k">print</span>(motto())<span class="cursor" aria-hidden="true"></span></div>
+            <div><span class="k">if</span> __name__ == <span class="s">"__main__"</span>:</div>
+            <div>&nbsp;&nbsp;<span class="k">print</span>(<span class="s">"Ready to build!"</span>)<span class="cursor" aria-hidden="true"></span></div>
           </div>
         </div>
 
         <div style="margin-top:14px" class="grid">
           <div class="mini span-6">
-            <h3><i class="fa-solid fa-bolt" style="color:var(--accent3)"></i> Fast delivery</h3>
-            <p>Clear specs → clean implementation → reliable result.</p>
+            <h3><i class="fa-solid fa-bolt" style="color:var(--accent3)"></i> Fast & Clean</h3>
+            <p>Rapid development with production-ready code.</p>
           </div>
           <div class="mini span-6">
-            <h3><i class="fa-solid fa-layer-group" style="color:var(--accent2)"></i> Practical systems</h3>
-            <p>From scripts to services — automation that actually helps.</p>
+            <h3><i class="fa-solid fa-layer-group" style="color:var(--accent2)"></i> Scalable</h3>
+            <p>Systems built to grow from day one.</p>
           </div>
           <div class="mini span-12">
-            <h3><i class="fa-solid fa-lock" style="color:var(--warn)"></i> Security mindset</h3>
-            <p>Prefer safe defaults, scanning, redaction, and predictable workflows.</p>
+            <h3><i class="fa-solid fa-lock" style="color:var(--warn)"></i> Security Focused</h3>
+            <p>Defense in depth: safe defaults, encrypted secrets, secure by design.</p>
+          </div>
+        </div>
+
+        <!-- Stats Panel -->
+        <div style="margin-top:16px; display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px;">
+          <div class="stat-box">
+            <div class="stat-value">15+</div>
+            <div class="stat-label">Projects</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value">55+</div>
+            <div class="stat-label">GitHub Stars</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value">100%</div>
+            <div class="stat-label">Uptime</div>
           </div>
         </div>
       </aside>
@@ -595,25 +876,58 @@
       <div class="grid">
         <div class="card span-8" style="padding:20px">
           <p class="lead" style="margin:0">
-            I’m a developer who enjoys turning ideas into robust software: APIs, bots, CLIs, and automation.
-            Recently I’ve been building security-related tooling and experimenting with OSINT and scanning systems.
+            I'm a developer passionate about turning ideas into robust, performant software. 
+            I specialize in building web services, CLI tools, automation systems, and security-focused utilities. 
+            I believe in writing clean, maintainable code and solving problems elegantly.
           </p>
 
           <div class="tags" aria-label="Highlights">
-            <span class="tag">Backend engineering</span>
-            <span class="tag">Automation</span>
-            <span class="tag">CLI tools</span>
-            <span class="tag">Web services</span>
-            <span class="tag">Security tooling</span>
+            <span class="tag">Backend APIs</span>
+            <span class="tag">DevOps & Automation</span>
+            <span class="tag">CLI Tools</span>
+            <span class="tag">OSINT</span>
+            <span class="tag">Security Systems</span>
+            <span class="tag">Database Design</span>
+          </div>
+
+          <!-- Timeline -->
+          <h3 style="margin:20px 0 14px; font-weight:800; font-size:16px">Experience</h3>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-marker"></div>
+              <div class="timeline-content">
+                <h4>Backend Developer</h4>
+                <span class="timeline-date">2024 - Present</span>
+                <p>Building scalable APIs and automation tools. Specialized in Python, FastAPI, and DevOps.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-marker"></div>
+              <div class="timeline-content">
+                <h4>Security Researcher</h4>
+                <span class="timeline-date">2023 - Present</span>
+                <p>OSINT tooling, vulnerability scanning, and security automation systems.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-item-last">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                  <h4>Open Source Contributor</h4>
+                  <span class="timeline-date">2022 - Present</span>
+                  <p>Active in security & DevOps communities. 55+ GitHub stars across projects.</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
         <div class="card span-4" style="padding:20px">
-          <h3 style="margin:0 0 10px">Quick links</h3>
+          <h3 style="margin:0 0 10px; font-weight:800">Find me</h3>
           <div class="grid" style="grid-template-columns:1fr; gap:10px">
-            <a class="btn" href="https://github.com/vazor-code" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub profile</a>
+            <a class="btn" href="https://github.com/vazor-code" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub</a>
+            <a class="btn" href="https://t.me/vazor_code_tg" target="_blank" rel="noopener"><i class="fa-brands fa-telegram"></i> Telegram</a>
             <a class="btn" href="https://steamcommunity.com/id/vazor_code/" target="_blank" rel="noopener"><i class="fa-brands fa-steam"></i> Steam</a>
-            <a class="btn" href="https://guns.lol/vazor_code" target="_blank" rel="noopener"><i class="fa-solid fa-link"></i> guns.lol</a>
           </div>
         </div>
       </div>
@@ -622,41 +936,125 @@
     <!-- SKILLS -->
     <section id="skills" class="reveal">
       <div class="section-title">
-        <h2>Stack</h2>
-        <p>02 • what I use</p>
+        <h2>Tech Stack</h2>
+        <p>02 • what I work with</p>
       </div>
 
       <div class="grid">
         <div class="card span-4" style="padding:20px">
-          <h3 style="margin:0 0 10px"><i class="fa-solid fa-code" style="color:var(--accent3)"></i> Core</h3>
-          <div class="tags">
-            <span class="tag">Python</span>
-            <span class="tag">Asyncio</span>
-            <span class="tag">Typing</span>
-            <span class="tag">SQL</span>
-            <span class="tag">Linux</span>
+          <h3 style="margin:0 0 10px; font-weight:800"><i class="fa-solid fa-code" style="color:var(--accent3)"></i> Languages</h3>
+          <div class="skills-list">
+            <div class="skill-item">
+              <div class="skill-header">
+                <span>Python</span>
+                <span class="skill-percent">95%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-fill" style="width:95%; animation-delay:0s"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-header">
+                <span>JavaScript</span>
+                <span class="skill-percent">70%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-fill" style="width:70%; animation-delay:0.2s"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-header">
+                <span>SQL</span>
+                <span class="skill-percent">90%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-fill" style="width:90%; animation-delay:0.4s"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-header">
+                <span>Bash</span>
+                <span class="skill-percent">80%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-fill" style="width:80%; animation-delay:0.6s"></div>
+              </div>
+            </div>
           </div>
         </div>
 
         <div class="card span-4" style="padding:20px">
-          <h3 style="margin:0 0 10px"><i class="fa-solid fa-server" style="color:var(--accent)"></i> Backend</h3>
-          <div class="tags">
-            <span class="tag">FastAPI</span>
-            <span class="tag">Flask</span>
-            <span class="tag">Django</span>
-            <span class="tag">REST</span>
-            <span class="tag">Webhooks</span>
+          <h3 style="margin:0 0 10px; font-weight:800"><i class="fa-solid fa-server" style="color:var(--accent)"></i> Backend</h3>
+          <div class="skills-list">
+            <div class="skill-item">
+              <div class="skill-header">
+                <span>Flask</span>
+                <span class="skill-percent">85%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-fill" style="width:85%; animation-delay:0.2s"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-header">
+                <span>Django</span>
+                <span class="skill-percent">80%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-fill" style="width:80%; animation-delay:0.4s"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-header">
+                <span>REST APIs</span>
+                <span class="skill-percent">95%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-fill" style="width:95%; animation-delay:0.6s"></div>
+              </div>
+            </div>
           </div>
         </div>
 
         <div class="card span-4" style="padding:20px">
-          <h3 style="margin:0 0 10px"><i class="fa-solid fa-gears" style="color:var(--accent2)"></i> DevOps & Tools</h3>
-          <div class="tags">
-            <span class="tag">Docker</span>
-            <span class="tag">GitHub Actions</span>
-            <span class="tag">CI/CD</span>
-            <span class="tag">PostgreSQL</span>
-            <span class="tag">Redis</span>
+          <h3 style="margin:0 0 10px; font-weight:800"><i class="fa-solid fa-gears" style="color:var(--accent2)"></i> DevOps</h3>
+          <div class="skills-list">
+            <div class="skill-item">
+              <div class="skill-header">
+                <span>GitHub Actions</span>
+                <span class="skill-percent">85%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-fill" style="width:85%; animation-delay:0.2s"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-header">
+                <span>Linux</span>
+                <span class="skill-percent">90%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-fill" style="width:90%; animation-delay:0.4s"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-header">
+                <span>PostgreSQL</span>
+                <span class="skill-percent">92%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-fill" style="width:92%; animation-delay:0.6s"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-header">
+                <span>MySQL</span>
+                <span class="skill-percent">92%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-fill" style="width:92%; animation-delay:0.6s"></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -666,7 +1064,7 @@
     <section id="projects" class="reveal">
       <div class="section-title">
         <h2>Projects</h2>
-        <p>03 • featured + latest</p>
+        <p>03 • featured & latest</p>
       </div>
 
       <div class="grid" style="margin-bottom:14px">
@@ -675,15 +1073,15 @@
           <div class="project-top">
             <div>
               <h3>CyberFind</h3>
-              <div class="muted2 mono">OSINT • reconnaissance • 200+ platforms</div>
+              <div class="muted2 mono">OSINT • 200+ platforms • search</div>
             </div>
             <span class="chip" title="Featured"><i class="fa-solid fa-star"></i> Featured</span>
           </div>
-          <p>Next-gen OSINT reconnaissance tool for investigators and pentesters. Fast username checks across many platforms.</p>
+          <p>Next-gen OSINT tool for investigators & pentesters. Fast username reconnaissance across social media, forums, and git platforms.</p>
           <div class="meta">
             <span><i class="fa-brands fa-python"></i> Python</span>
-            <a href="https://github.com/vazor-code/cyber-find" target="_blank" rel="noopener">
-              Open <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            <a href="https://github.com/VAZlabs/cyber-find" target="_blank" rel="noopener">
+              View <i class="fa-solid fa-arrow-up-right-from-square"></i>
             </a>
           </div>
         </div>
@@ -691,16 +1089,16 @@
         <div class="project span-4">
           <div class="project-top">
             <div>
-              <h3>UptimeMonitor</h3>
-              <div class="muted2 mono">monitoring • alerts • telegram</div>
+              <h3>SecretScout</h3>
+              <div class="muted2 mono">security • git • defensive</div>
             </div>
             <span class="chip" title="Featured"><i class="fa-solid fa-star"></i> Featured</span>
           </div>
-          <p>Monitor any website’s uptime and get instant notifications via Telegram when it goes down.</p>
+          <p>Defensive secret scanner for Git repositories. Prevent API keys, tokens, and passwords from being accidentally committed.</p>
           <div class="meta">
-            <span><i class="fa-solid fa-bell"></i> Alerts</span>
-            <a href="https://github.com/vazor-code/UptimeMonitor" target="_blank" rel="noopener">
-              Open <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            <span><i class="fa-solid fa-shield"></i> Security</span>
+            <a href="https://github.com/VAZlabs/SecretScout" target="_blank" rel="noopener">
+              View <i class="fa-solid fa-arrow-up-right-from-square"></i>
             </a>
           </div>
         </div>
@@ -708,16 +1106,16 @@
         <div class="project span-4">
           <div class="project-top">
             <div>
-              <h3>PassVault</h3>
-              <div class="muted2 mono">encryption • vault • cli</div>
+              <h3>VPScope</h3>
+              <div class="muted2 mono">monitoring • dashboard • vps</div>
             </div>
             <span class="chip" title="Featured"><i class="fa-solid fa-star"></i> Featured</span>
           </div>
-          <p>A simple encrypted password vault built with Python — store, search, delete entries and generate strong passwords.</p>
+          <p>VPS monitoring dashboard with real-time stats. Monitor CPU, RAM, disk, network, and manage files via sleek web UI.</p>
           <div class="meta">
-            <span><i class="fa-solid fa-lock"></i> Encrypted</span>
-            <a href="https://github.com/vazor-code/PassVault" target="_blank" rel="noopener">
-              Open <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            <span><i class="fa-solid fa-chart-line"></i> Dashboard</span>
+            <a href="https://github.com/vazor-code/VPScope" target="_blank" rel="noopener">
+              View <i class="fa-solid fa-arrow-up-right-from-square"></i>
             </a>
           </div>
         </div>
@@ -727,8 +1125,8 @@
       <div class="card" style="padding:20px">
         <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:12px; flex-wrap:wrap;">
           <div>
-            <h3 style="margin:0">Latest activity</h3>
-            <div class="muted2 mono">auto-loaded from GitHub (updated repos)</div>
+            <h3 style="margin:0; font-weight:800">All Projects</h3>
+            <div class="muted2 mono">auto-loaded from GitHub • both accounts</div>
           </div>
           <div class="muted2 mono" id="repoStatus">Loading…</div>
         </div>
@@ -740,39 +1138,68 @@
     <!-- CONTACT -->
     <section id="contact" class="reveal">
       <div class="section-title">
-        <h2>Contact</h2>
-        <p>04 • let’s build</p>
+        <h2>Let's Work Together</h2>
+        <p>04 • get in touch</p>
       </div>
 
       <div class="grid">
         <div class="card span-8" style="padding:20px">
-          <h3 style="margin:0 0 10px">Want to collaborate?</h3>
+          <h3 style="margin:0 0 10px; font-weight:800">Ready for collaboration?</h3>
           <p class="lead" style="margin:0">
-            If you need a bot, API, automation, a CLI tool, or a security-focused utility — feel free to reach out.
+            Whether you need a scalable API, automation tool, security solution, or full backend system — let's talk. I'm available for freelance projects and collaborations.
           </p>
 
           <div class="hero-cta" style="margin-top:16px">
-            <!-- Replace email/telegram if needed -->
-            <a class="btn primary" href="mailto:vazorcode@gmail.com"><i class="fa-solid fa-envelope"></i> Email me</a>
+            <a class="btn primary" href="mailto:vazorcode@gmail.com"><i class="fa-solid fa-envelope"></i> Email</a>
             <a class="btn" href="https://t.me/vazor_code_tg" target="_blank" rel="noopener"><i class="fa-brands fa-telegram"></i> Telegram</a>
           </div>
 
           <div class="tags" style="margin-top:14px">
-            <span class="tag">Open to learning</span>
+            <span class="tag">Fast response</span>
             <span class="tag">Clean code</span>
-            <span class="tag">Fast iteration</span>
+            <span class="tag">Transparent process</span>
+            <span class="tag">Reliable delivery</span>
+          </div>
+
+          <!-- Quick Links Section -->
+          <h3 style="margin:20px 0 14px; font-weight:800; font-size:16px">Quick Access</h3>
+          <div class="quick-links">
+            <a href="https://github.com/vazor-code" class="quick-link">
+              <i class="fa-brands fa-github"></i>
+              <div>
+                <div class="ql-title">GitHub Profile</div>
+                <div class="ql-desc">All personal projects</div>
+              </div>
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+            <a href="https://github.com/VAZlabs" class="quick-link">
+              <i class="fa-solid fa-building"></i>
+              <div>
+                <div class="ql-title">VAZlabs Org</div>
+                <div class="ql-desc">Team & major projects</div>
+              </div>
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+            <a href="https://t.me/vazor_code_tg" class="quick-link">
+              <i class="fa-brands fa-telegram"></i>
+              <div>
+                <div class="ql-title">Direct Message</div>
+                <div class="ql-desc">Fastest response time</div>
+              </div>
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
           </div>
         </div>
 
         <div class="card span-4" style="padding:20px">
-          <h3 style="margin:0 0 10px">Current focus</h3>
+          <h3 style="margin:0 0 10px; font-weight:800">Currently Building</h3>
           <div class="mini" style="margin-bottom:10px">
-            <h3 style="margin:0 0 6px">Security tooling</h3>
-            <p>Scanners, automation, safer developer workflows.</p>
+            <h3 style="margin:0 0 6px">Security Tools</h3>
+            <p>Scanners, OSINT, defensive automation.</p>
           </div>
           <div class="mini">
-            <h3 style="margin:0 0 6px">Web services</h3>
-            <p>Fast APIs, monitoring, bots, and integrations.</p>
+            <h3 style="margin:0 0 6px">Monitoring Systems</h3>
+            <p>Real-time dashboards, alerts, analytics.</p>
           </div>
         </div>
       </div>
@@ -780,20 +1207,24 @@
 
     <footer>
       <div class="foot">
-        <div class="muted2 mono">© <span id="year"></span> vazor • built with Python energy 🐍</div>
+        <div class="muted2 mono">© <span id="year"></span> vazor • Code over chaos</div>
         <div class="social" aria-label="Social links">
-          <a href="https://github.com/vazor-code" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
-          <a href="https://t.me/vazor_code_tg" target="_blank" rel="noopener" aria-label="Telegram"><i class="fa-brands fa-telegram"></i></a>
-          <a href="https://vazor-code.github.io/" target="_blank" rel="noopener" aria-label="Website"><i class="fa-solid fa-globe"></i></a>
+          <a href="https://github.com/vazor-code" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub"><i class="fa-brands fa-github"></i></a>
+          <a href="https://github.com/VAZlabs" target="_blank" rel="noopener" aria-label="VAZlabs" title="VAZlabs Org"><i class="fa-solid fa-building"></i></a>
+          <a href="https://t.me/vazor_code_tg" target="_blank" rel="noopener" aria-label="Telegram" title="Telegram"><i class="fa-brands fa-telegram"></i></a>
+          <a href="mailto:vazorcode@gmail.com" aria-label="Email" title="Email"><i class="fa-solid fa-envelope"></i></a>
         </div>
+      </div>
+      <div style="text-align:center; margin-top:20px; font-size:12px; color:var(--muted2)">
+        <p>Made with <span style="color:var(--accent4)">❤️</span> • HTML • CSS • JS • Love for code</p>
       </div>
     </footer>
   </main>
 
   <script>
     // ====== CONFIG ======
-    const USERNAME = "vazor-code";
-    const MAX_REPOS = 8;
+    const USERNAMES = ["vazor-code", "VAZlabs"];
+    const MAX_REPOS = 12;
 
     // ====== THEME ======
     const root = document.documentElement;
@@ -844,11 +1275,12 @@
       return (s ?? "").replace(/[&<>"']/g, m => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[m]));
     }
 
-    function repoCard(r){
+    function repoCard(r, org){
       const lang = r.language ? `• ${esc(r.language)}` : "";
-      const desc = r.description ? esc(r.description) : "No description provided.";
+      const desc = r.description ? esc(r.description) : "No description";
       const stars = r.stargazers_count ?? 0;
       const forks = r.forks_count ?? 0;
+      const orgLabel = org === "VAZlabs" ? '<span class="tag" style="color:var(--accent2); margin-right:8px"><i class="fa-solid fa-building"></i></span>' : '';
 
       return `
         <div class="project span-4">
@@ -861,6 +1293,7 @@
           </div>
           <p>${desc}</p>
           <div class="meta">
+            ${orgLabel}
             <span><i class="fa-solid fa-code-fork"></i> ${forks}</span>
             <a href="${esc(r.html_url)}" target="_blank" rel="noopener">
               Open <i class="fa-solid fa-arrow-up-right-from-square"></i>
@@ -873,24 +1306,32 @@
     async function loadRepos(){
       try{
         repoStatus.textContent = "Loading…";
-        const url = `https://api.github.com/users/${USERNAME}/repos?per_page=100&sort=pushed`;
-        const res = await fetch(url, { headers: { "Accept": "application/vnd.github+json" } });
-        if(!res.ok) throw new Error("GitHub API error");
-        const data = await res.json();
+        let allRepos = [];
 
-        const filtered = data
-          .filter(r => !r.fork)
-          .sort((a,b) => new Date(b.pushed_at) - new Date(a.pushed_at))
-          .slice(0, MAX_REPOS);
+        for(const username of USERNAMES){
+          const url = `https://api.github.com/users/${username}/repos?per_page=100&sort=pushed`;
+          const res = await fetch(url, { headers: { "Accept": "application/vnd.github+json" } });
+          if(!res.ok) throw new Error(`GitHub API error for ${username}`);
+          const data = await res.json();
 
-        reposGrid.innerHTML = filtered.map(repoCard).join("");
-        repoStatus.textContent = `Showing ${filtered.length} updated repos`;
+          const filtered = data
+            .filter(r => !r.fork)
+            .map(r => ({ ...r, org: username }));
+          
+          allRepos = allRepos.concat(filtered);
+        }
+
+        allRepos.sort((a,b) => new Date(b.pushed_at) - new Date(a.pushed_at));
+        const topRepos = allRepos.slice(0, MAX_REPOS);
+
+        reposGrid.innerHTML = topRepos.map(r => repoCard(r, r.org)).join("");
+        repoStatus.textContent = `${topRepos.length} repos • updated today`;
       }catch(e){
-        repoStatus.textContent = "Couldn’t load repos (API limit/offline)";
+        repoStatus.textContent = "Could not load repos";
         reposGrid.innerHTML = `
           <div class="mini span-12">
-            <h3 style="margin:0 0 6px">Tip</h3>
-            <p>GitHub API can be rate-limited for anonymous requests. The featured projects above still work perfectly.</p>
+            <h3 style="margin:0 0 6px">Featured projects shown above</h3>
+            <p>GitHub API rate-limited. See featured projects and all repos on GitHub directly.</p>
           </div>
         `;
       }
@@ -909,6 +1350,99 @@
         }
       });
     });
+
+    // Cursor glow effect (debounced)
+    const cursorGlow = document.createElement('div');
+    cursorGlow.style.cssText = `
+      position: fixed;
+      width: 30px;
+      height: 30px;
+      border: 2px solid rgba(6, 182, 212, 0.4);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      display: none;
+      box-shadow: 0 0 12px rgba(6, 182, 212, 0.2);
+      will-change: left, top;
+    `;
+    document.body.appendChild(cursorGlow);
+
+    let lastX = 0, lastY = 0;
+    let rafId = null;
+    
+    document.addEventListener('mousemove', (e) => {
+      lastX = e.clientX;
+      lastY = e.clientY;
+      cursorGlow.style.display = 'block';
+      
+      if(!rafId){
+        rafId = requestAnimationFrame(() => {
+          cursorGlow.style.left = (lastX - 15) + 'px';
+          cursorGlow.style.top = (lastY - 15) + 'px';
+          rafId = null;
+        });
+      }
+    });
+
+    document.addEventListener('mouseleave', () => {
+      cursorGlow.style.display = 'none';
+      if(rafId){
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
+    });
+
+    // Copy to clipboard feedback
+    document.addEventListener('click', function(e) {
+      if(e.target.tagName === 'A' && e.target.textContent.includes('@')) {
+        setTimeout(() => {
+          if(document.activeElement === document.body) {
+            const feedback = document.createElement('div');
+            feedback.textContent = 'Link copied!';
+            feedback.style.cssText = `
+              position: fixed;
+              top: 20px;
+              right: 20px;
+              background: rgba(16, 185, 129, 0.9);
+              color: white;
+              padding: 12px 20px;
+              border-radius: 8px;
+              font-size: 14px;
+              animation: slideIn 0.3s ease;
+              z-index: 10000;
+            `;
+            document.body.appendChild(feedback);
+            setTimeout(() => feedback.remove(), 2000);
+          }
+        }, 100);
+      }
+    });
+
+    // Intersection observer for stat boxes (lazy animate only in view)
+    const statBoxes = document.querySelectorAll('.stat-box');
+    const statObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+        } else {
+          entry.target.classList.remove('in-view');
+        }
+      });
+    }, { threshold: 0.5 });
+    statBoxes.forEach(box => statObserver.observe(box));
   </script>
+
+  <style>
+    @keyframes slideIn{
+      from{
+        transform: translateY(-20px);
+        opacity: 0;
+      }
+      to{
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+  </style>
 </body>
 </html>
